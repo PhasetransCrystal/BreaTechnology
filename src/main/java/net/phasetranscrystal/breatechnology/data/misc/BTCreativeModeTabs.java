@@ -20,6 +20,12 @@ public class BTCreativeModeTabs {
                             .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("test_tab"), BreaTechnology.NAME + "TestTab"))
                             .build())
             .register();
+    public static RegistryEntry<CreativeModeTab,CreativeModeTab>MACHINE_TAB=REGISTRATE.defaultCreativeTab("machine_tab",
+            builder -> builder.displayItems(new RegistrateDisplayItemsGenerator("machine_tab", REGISTRATE))
+                    .icon(Items.AIR::getDefaultInstance)
+                    .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("machine_tab"), BreaTechnology.NAME + "Machine Tab"))
+                    .build())
+            .register();
 
     public static void init() {
     }

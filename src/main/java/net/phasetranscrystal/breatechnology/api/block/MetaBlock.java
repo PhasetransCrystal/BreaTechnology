@@ -1,5 +1,6 @@
 package net.phasetranscrystal.breatechnology.api.block;
 
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -9,8 +10,10 @@ import net.phasetranscrystal.breatechnology.api.definition.MetaBlockDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/// 带方块实体的基础类
 public class MetaBlock extends Block implements EntityBlock {
-    private final MetaBlockDefinition definition;
+    @Getter
+    private final MetaBlockDefinition<?> definition;
 
     public MetaBlock(Properties properties, MetaBlockDefinition definition) {
         super(properties);
@@ -19,6 +22,6 @@ public class MetaBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return definition.newBlockEntity(blockPos, blockState);
+        return definition.getBlockEntityType().create(blockPos, blockState);
     }
 }

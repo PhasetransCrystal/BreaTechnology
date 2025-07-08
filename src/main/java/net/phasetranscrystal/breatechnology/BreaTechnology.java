@@ -13,7 +13,7 @@ import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.data.loading.DatagenModLoader;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.phasetranscrystal.breatechnology.api.BTAPI;
-import net.phasetranscrystal.breatechnology.api.GTValues;
+import net.phasetranscrystal.breatechnology.api.BTValues;
 import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.utils.FormattingUtil;
 import net.phasetranscrystal.breatechnology.common.CommonInit;
@@ -161,26 +161,26 @@ public class BreaTechnology {
     public static class Mods {
 
         public static boolean isJEILoaded() {
-            return !(isModLoaded(GTValues.MODID_EMI) || isModLoaded(GTValues.MODID_REI)) &&
-                    isModLoaded(GTValues.MODID_JEI);
+            return !(isModLoaded(BTValues.MODID_EMI) || isModLoaded(BTValues.MODID_REI)) &&
+                    isModLoaded(BTValues.MODID_JEI);
         }
 
-        public static boolean isKubeJSLoaded() {return isModLoaded(GTValues.MODID_KUBEJS);}
+        public static boolean isKubeJSLoaded() {return isModLoaded(BTValues.MODID_KUBEJS);}
 
         public static boolean isAE2Loaded() {
-            return isModLoaded(GTValues.MODID_APPENG);
+            return isModLoaded(BTValues.MODID_APPENG);
         }
 
         public static boolean isCuriosLoaded() {
-            return isModLoaded(GTValues.MODID_CURIOS);
+            return isModLoaded(BTValues.MODID_CURIOS);
         }
 
         public static boolean isFTBTeamsLoaded() {
-            return isModLoaded(GTValues.MODID_FTB_TEAMS);
+            return isModLoaded(BTValues.MODID_FTB_TEAMS);
         }
 
         public static boolean isFTBQuestsLoaded() {
-            return isModLoaded(GTValues.MODID_FTB_QUEST);
+            return isModLoaded(BTValues.MODID_FTB_QUEST);
         }
     }
 }

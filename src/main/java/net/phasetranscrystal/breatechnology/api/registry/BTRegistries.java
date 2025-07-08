@@ -2,24 +2,27 @@ package net.phasetranscrystal.breatechnology.api.registry;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.definition.MetaBlockDefinition;
-import net.phasetranscrystal.breatechnology.api.definition.MetaDefinition;
+import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
 import org.jetbrains.annotations.ApiStatus;
 
 public class BTRegistries {
     public static final BTRegistry.RL<MetaBlockDefinition> BlockDefinitions = new BTRegistry.RL<>(BreaTechnology.id("meta_block_definitions"));
+    public static final BTRegistry.RL<MetaMachineDefinition> MACHINES = new BTRegistry.RL<>(BreaTechnology.id("machines"));
+    public static final BTRegistry.String<ResourceTexture>GUI_TEXTURES=new BTRegistry.String<>(BreaTechnology.id("gui_textures"));
 
     private static final Table<Registry<?>, ResourceLocation, Object> TO_REGISTER = HashBasedTable.create();
+
 
     /// 注册到全局注册表
     public static <V, T extends V> T register(Registry<V> registry, ResourceLocation name, T value) {

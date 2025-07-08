@@ -2,6 +2,7 @@ package net.phasetranscrystal.breatechnology.config;
 
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
+import dev.toma.configuration.config.Configurable;
 import dev.toma.configuration.config.format.ConfigFormats;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import org.jetbrains.annotations.ApiStatus;
@@ -21,5 +22,18 @@ public class ConfigHolder {
                 INSTANCE = INTERNAL_INSTANCE.getConfigInstance();
             }
         }
+    }
+
+    @Configurable
+    public ClientConfigs client = new ClientConfigs();
+
+    public static class ClientConfigs {
+        @Configurable
+        @Configurable.Comment({ "The default color to overlay onto machines.",
+                "#FFFFFF is no coloring (default).",
+                "#D2DCFF is the classic blue from GT5." })
+        @Configurable.StringPattern(value = "#[0-9a-fA-F]{1,6}")
+        @Configurable.Gui.ColorValue
+        public String defaultPaintingColor = "#FFFFFF";
     }
 }

@@ -1,6 +1,6 @@
 package net.phasetranscrystal.breatechnology.api;
 
-public class GTValues {
+public class BTValues {
     public static final String MODID_TOP = "theoneprobe",
             MODID_JEI = "jei",
             MODID_REI = "roughlyenoughitems",
