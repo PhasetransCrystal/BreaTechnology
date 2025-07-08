@@ -1,7 +1,6 @@
 package net.phasetranscrystal.breatechnology.api.registry.registate;
 
 import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.Builder;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.builders.NoConfigBuilder;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,17 +26,14 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
-import net.phasetranscrystal.breatechnology.api.BTValues;
 import net.phasetranscrystal.breatechnology.api.block.MetaMachineBlock;
 import net.phasetranscrystal.breatechnology.api.blockentity.MetaMachineBlockEntity;
-import net.phasetranscrystal.breatechnology.api.definition.MetaBlockDefinition;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
 import net.phasetranscrystal.breatechnology.api.item.MetaMachineItem;
 import net.phasetranscrystal.breatechnology.api.machine.IMachineBlock;
 import net.phasetranscrystal.breatechnology.api.machine.IMachineBlockEntity;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import net.phasetranscrystal.breatechnology.api.machine.builder.MachineBuilder;
-import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.utils.FormattingUtil;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.ApiStatus;
@@ -51,7 +46,6 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
     private static final Map<String, BTRegistrate> EXISTING_REGISTRATES = new Object2ObjectOpenHashMap<>();
@@ -156,17 +150,17 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
     }
 
     public <DEFINITION extends MetaMachineDefinition<?>>
-    MachineBuilder<DEFINITION> registerMachine(String name,
-                                               BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
-                                               Function<IMachineBlockEntity, MetaMachine> machineFactory,
-                                               BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                                               BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                               TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    MachineBuilder<DEFINITION> machine(String name,
+                                       BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
+                                       Function<IMachineBlockEntity, MetaMachine> machineFactory,
+                                       BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
+                                       BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+                                       TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         return new MachineBuilder<>(this, name, definitionFactory, machineFactory, blockFactory, itemFactory, blockEntityFactory);
     }
 
-    public MachineBuilder<MetaMachineDefinition<?>> registerMachine(String name,
-                                                                    Function<IMachineBlockEntity, MetaMachine> machineFactory) {
+    public MachineBuilder<MetaMachineDefinition<?>> machine(String name,
+                                                            Function<IMachineBlockEntity, MetaMachine> machineFactory) {
         return new MachineBuilder<>(this, name, MetaMachineDefinition::new, machineFactory, MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
     }
 }

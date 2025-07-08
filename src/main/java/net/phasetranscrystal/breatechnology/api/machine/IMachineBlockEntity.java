@@ -8,10 +8,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.phasetranscrystal.breatechnology.api.BTValues;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
 
 /// 机器方块实体基本方法接口
-public interface IMachineBlockEntity {
+public interface IMachineBlockEntity extends IAsyncAutoSyncBlockEntity, IRPCBlockEntity, IAutoPersistBlockEntity {
+
     default BlockEntity self() {
         return (BlockEntity) this;
     }
@@ -28,5 +30,53 @@ public interface IMachineBlockEntity {
         if (level() != null) {
             level().updateNeighborsAt(pos(), level().getBlockState(pos()).getBlock());
         }
+    }
+    default void scheduleRenderUpdate() {
+        var pos = pos();
+        if (level() != null) {
+            var state = level().getBlockState(pos);
+            if (level().isClientSide) {
+                level().sendBlockUpdated(pos, state, state, 1 << 3);
+            } else {
+                level().blockEvent(pos, state.getBlock(), 1, 0);
+            }
+        }
+    }
+
+    default long getOffsetTimer() {
+        if (level() == null) return getOffset();
+        else if (level().isClientSide()) return BTValues.CLIENT_TIME + getOffset();
+
+        var server = level().getServer();
+        if (server != null) return server.getTickCount() + getOffset();
+        return getOffset();
+    }
+
+
+    default MetaMachineDefinition getDefinition() {
+        if (self().getBlockState().getBlock() instanceof IMachineBlock machineBlock) {
+            return machineBlock.getDefinition();
+        } else {
+            throw new IllegalStateException("MetaMachineBlockEntity is created for an un available block: " +
+                    self().getBlockState().getBlock());
+        }
+    }
+
+    MetaMachine getMetaMachine();
+
+
+    long getOffset();
+    MultiManagedStorage getRootStorage();
+
+    @Override
+    default void saveCustomPersistedData(CompoundTag tag, boolean forDrop) {
+        IAutoPersistBlockEntity.super.saveCustomPersistedData(tag, forDrop);
+        getMetaMachine().saveCustomPersistedData(tag, forDrop);
+    }
+
+    @Override
+    default void loadCustomPersistedData(CompoundTag tag) {
+        IAutoPersistBlockEntity.super.loadCustomPersistedData(tag);
+        getMetaMachine().loadCustomPersistedData(tag);
     }
 }

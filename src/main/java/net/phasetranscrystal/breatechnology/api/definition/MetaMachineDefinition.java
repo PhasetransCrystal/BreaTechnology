@@ -1,33 +1,51 @@
 package net.phasetranscrystal.breatechnology.api.definition;
 
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib.utils.ShapeUtils;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.phasetranscrystal.breatechnology.api.blockentity.MetaMachineBlockEntity;
+import net.phasetranscrystal.breatechnology.api.gui.egitor.EditableMachineUI;
 import net.phasetranscrystal.breatechnology.api.item.MetaMachineItem;
-import net.phasetranscrystal.breatechnology.api.machine.IMachineBlockEntity;
-import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
-import net.phasetranscrystal.breatechnology.api.machine.RotationState;
+import net.phasetranscrystal.breatechnology.api.machine.*;
+import net.phasetranscrystal.breatechnology.api.machine.feature.IRecipeLogicMachine;
 import net.phasetranscrystal.breatechnology.api.recipe.BTRecipeType;
+import net.phasetranscrystal.breatechnology.api.recipe.capability.RecipeCapability;
+import net.phasetranscrystal.breatechnology.api.recipe.kind.BTRecipe;
+import net.phasetranscrystal.breatechnology.api.recipe.modifier.RecipeModifier;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.*;
 
 /// 基础机器定义信息
-public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends MetaBlockDefinition<T> {
+public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends MetaBlockDefinition<T> implements Supplier<IMachineBlock> {
     public MetaMachineDefinition(AbstractRegistrate<?> owner, ResourceLocation id) {
         super(owner, id);
     }
 
+    // This is only stored here for KJS use.
+    @Getter
+    @Setter
+    @Nullable
+    private String langValue;
     @Setter
     private Supplier<? extends Block> blockSupplier;
     @Setter
@@ -63,15 +81,18 @@ public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends Met
         return getBlock().defaultBlockState();
     }
 
-    @Getter
-    @Setter
-    private BTRecipeType @Nullable [] recipeTypes;
-
-    @Getter
-    private RotationState rotationState = RotationState.ALL;
+    @Override
+    public IMachineBlock get() {
+        return (IMachineBlock) blockSupplier.get();
+    }
 
     public String getName() {
         return getId().getPath();
+    }
+
+    @Override
+    public String toString() {
+        return "[Definition: %s]".formatted(getId());
     }
 
     @Override
@@ -79,7 +100,7 @@ public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends Met
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        var that = (MetaMachineDefinition<?>) o;
+        MetaMachineDefinition that = (MetaMachineDefinition) o;
 
         return getId().equals(that.getId());
     }
@@ -89,11 +110,80 @@ public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends Met
         return getId().hashCode();
     }
 
+    @Getter
+    @Setter
+    private BTRecipeType @Nullable [] recipeTypes;
+    @Getter
+    @Setter
+    private int tier;
+    @Getter
+    @Setter
+    private int defaultPaintingColor;
+    @Getter
+    @Setter
+    private RecipeModifier recipeModifier;
+    @Getter
+    @Setter
+    private boolean alwaysTryModifyRecipe;
+    @NotNull
+    @Getter
+    @Setter
+    private BiPredicate<IRecipeLogicMachine, BTRecipe> beforeWorking = (machine, recipe) -> true;
+    @NotNull
+    @Getter
+    @Setter
+    private Predicate<IRecipeLogicMachine> onWorking = (machine) -> true;
+    @NotNull
+    @Getter
+    @Setter
+    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {
+    };
+    @NotNull
+    @Getter
+    @Setter
+    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {
+    };
+    @Getter
+    @Setter
+    private boolean regressWhenWaiting = true;
 
-    @Override
-    public String toString() {
-        return "[Definition: %s]".formatted(getId());
+    @Getter
+    @Setter
+    private IRenderer renderer;
+    @Setter
+    private VoxelShape shape;
+
+    public VoxelShape getShape(Direction direction) {
+        if (shape.isEmpty() || shape == Shapes.block() || direction == Direction.NORTH) return shape;
+        return this.cache.computeIfAbsent(direction, dir -> ShapeUtils.rotate(shape, dir));
     }
+    @Getter
+    @Setter
+    private boolean renderWorldPreview;
+    @Getter
+    @Setter
+    private boolean renderXEIPreview;
+    private final Map<Direction, VoxelShape> cache = new EnumMap<>(Direction.class);
+    @Getter
+    @Setter
+    private BiConsumer<ItemStack, List<Component>> tooltipBuilder;
+    @Getter
+    @Setter
+    private Supplier<BlockState> appearance;
+    @Nullable
+    @Getter
+    @Setter
+    private EditableMachineUI editableUI;
+    @Getter
+    @Setter
+    private Object2IntMap<RecipeCapability<?>> recipeOutputLimits = new Object2IntOpenHashMap<>();
+    @Getter
+    private RotationState rotationState = RotationState.ALL;
+    @Getter
+    @Setter
+    private boolean enableExtraRotation = true;
+    @Getter
+    private ExtraRotate extraRotate = ExtraRotate.NONE;
 
     private static ThreadLocal<MetaMachineDefinition> Built = new ThreadLocal<>();
 

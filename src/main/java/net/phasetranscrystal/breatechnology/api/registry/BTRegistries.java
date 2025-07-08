@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
+import net.phasetranscrystal.breatechnology.api.cover.CoverDefinition;
 import net.phasetranscrystal.breatechnology.api.definition.MetaBlockDefinition;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
 import org.jetbrains.annotations.ApiStatus;
@@ -20,6 +21,7 @@ public class BTRegistries {
     public static final BTRegistry.RL<MetaBlockDefinition> BlockDefinitions = new BTRegistry.RL<>(BreaTechnology.id("meta_block_definitions"));
     public static final BTRegistry.RL<MetaMachineDefinition> MACHINES = new BTRegistry.RL<>(BreaTechnology.id("machines"));
     public static final BTRegistry.String<ResourceTexture>GUI_TEXTURES=new BTRegistry.String<>(BreaTechnology.id("gui_textures"));
+    public static final BTRegistry.RL<CoverDefinition> COVERS = new BTRegistry.RL<>(BreaTechnology.id("covers"));
 
     private static final Table<Registry<?>, ResourceLocation, Object> TO_REGISTER = HashBasedTable.create();
 

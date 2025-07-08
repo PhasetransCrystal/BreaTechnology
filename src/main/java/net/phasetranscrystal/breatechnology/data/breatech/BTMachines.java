@@ -13,7 +13,7 @@ public class BTMachines {
         BTRegistries.MACHINES.unfreeze();
     }
 
-    public static MetaMachineDefinition<?> TEST_MACHINE = REGISTRATE.registerMachine("test_machine",
+    public static MetaMachineDefinition<?> TEST_MACHINE = REGISTRATE.machine("test_machine",
             MetaMachine::new).register();
 
     public static void init() {

@@ -36,4 +36,22 @@ public class ConfigHolder {
         @Configurable.Gui.ColorValue
         public String defaultPaintingColor = "#FFFFFF";
     }
+    @Configurable
+    public ServerConfigs server = new ServerConfigs();
+    public static class ServerConfigs {
+    }
+    @Configurable
+    public MachineConfigs machines = new MachineConfigs();
+    public static class MachineConfigs {
+        @Configurable
+        @Configurable.Comment({ "Whether ONLY owners can open a machine gui", "Default: false" })
+        public boolean onlyOwnerGUI = false;
+        @Configurable
+        @Configurable.Comment({ "Whether ONLY owners can break a machine", "Default: false" })
+        public boolean onlyOwnerBreak = false;
+        @Configurable
+        @Configurable.Comment({ "Minimum op level to bypass the ownership checks", "Default: 2" })
+        @Configurable.Range(min = 0, max = 4)
+        public int ownerOPBypass = 2;
+    }
 }
