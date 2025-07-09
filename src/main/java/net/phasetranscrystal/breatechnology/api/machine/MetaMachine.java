@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.UUID;
 
 /// 机器基本方法
-public class MetaMachine implements IEnhancedManaged ,  ITickSubscription, IAppearance , IPaintable, IRedstoneSignalMachine {//},IToolable, IToolGridHighLight, IFancyTooltip, {
+public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppearance , IPaintable, IRedstoneSignalMachine {//},IToolable, IToolGridHighLight, IFancyTooltip, {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MetaMachine.class);
     @Getter
     private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);

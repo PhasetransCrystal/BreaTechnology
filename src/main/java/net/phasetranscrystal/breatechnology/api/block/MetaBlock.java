@@ -15,7 +15,7 @@ public class MetaBlock extends Block implements EntityBlock {
     @Getter
     private final MetaBlockDefinition<?> definition;
 
-    public MetaBlock(Properties properties, MetaBlockDefinition definition) {
+    public MetaBlock(Properties properties, MetaBlockDefinition<?> definition) {
         super(properties);
         this.definition = definition;
     }

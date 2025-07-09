@@ -1,36 +1,33 @@
 package net.phasetranscrystal.breatechnology.api.blockentity;
 
 /**
- * @author screret
- * @date 6/28/2023
- * @implNote Implement on paintable block entities
+ * @implNote 在可绘制的方块实体上实现
  */
 public interface IPaintable {
 
     /**
-     * Get painting color.
-     * It's not the real color of this block.
-     *
-     * @return -1 - non painted.
+     * 获取绘制颜色。
+     * 这不是该方块的真实颜色。
+     * @return -1 表示未绘制
      */
     int getPaintingColor();
 
     void setPaintingColor(int color);
 
     /**
-     * Default color.
+     * 默认颜色。
      */
     int getDefaultPaintingColor();
 
     /**
-     * If the block is painted.
+     * 判断方块是否被绘制。
      */
     default boolean isPainted() {
         return getPaintingColor() != -1 && getPaintingColor() != getDefaultPaintingColor();
     }
 
     /**
-     * Get the real color of this block.
+     * 获取该方块的真实颜色。
      */
     default int getRealColor() {
         return isPainted() ? getPaintingColor() : getDefaultPaintingColor();

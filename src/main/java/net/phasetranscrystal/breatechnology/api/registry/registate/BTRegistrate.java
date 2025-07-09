@@ -34,6 +34,7 @@ import net.phasetranscrystal.breatechnology.api.machine.IMachineBlock;
 import net.phasetranscrystal.breatechnology.api.machine.IMachineBlockEntity;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import net.phasetranscrystal.breatechnology.api.machine.builder.MachineBuilder;
+import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.utils.FormattingUtil;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.ApiStatus;
@@ -147,6 +148,10 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
     public <T extends Item> @NotNull ItemBuilder<T, BTRegistrate> item(@NotNull String name,
                                                                        @NotNull NonNullFunction<Item.Properties, T> factory) {
         return super.item(name, factory).lang(FormattingUtil.toEnglishName(name.replaceAll("\\.", "_")));
+    }
+
+    static {
+        BTRegistries.MACHINES.unfreeze();
     }
 
     public <DEFINITION extends MetaMachineDefinition<?>>

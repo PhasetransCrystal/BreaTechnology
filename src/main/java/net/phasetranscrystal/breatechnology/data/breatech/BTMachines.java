@@ -9,12 +9,11 @@ import static net.phasetranscrystal.breatechnology.common.registry.BTRegistratio
 
 public class BTMachines {
     static {
-        REGISTRATE.creativeModeTab(()-> BTCreativeModeTabs.MACHINE_TAB);
-        BTRegistries.MACHINES.unfreeze();
+        REGISTRATE.creativeModeTab(() -> BTCreativeModeTabs.MACHINE_TAB);
     }
 
-    public static MetaMachineDefinition<?> TEST_MACHINE = REGISTRATE.machine("test_machine",
-            MetaMachine::new).register();
+    public static MetaMachineDefinition<?> TEST_MACHINE = REGISTRATE.machine("test_machine", MetaMachine::new)
+            .register();
 
     public static void init() {
     }

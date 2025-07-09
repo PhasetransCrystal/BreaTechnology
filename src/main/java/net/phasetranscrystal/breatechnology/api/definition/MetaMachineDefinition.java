@@ -41,11 +41,6 @@ public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends Met
         super(owner, id);
     }
 
-    // This is only stored here for KJS use.
-    @Getter
-    @Setter
-    @Nullable
-    private String langValue;
     @Setter
     private Supplier<? extends Block> blockSupplier;
     @Setter
@@ -110,28 +105,31 @@ public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends Met
         return getId().hashCode();
     }
 
+    /// 机器处理配方类型
     @Getter
     @Setter
     private BTRecipeType @Nullable [] recipeTypes;
-    @Getter
-    @Setter
-    private int tier;
+    /// 默认绘制颜色
     @Getter
     @Setter
     private int defaultPaintingColor;
+    /// 配方修饰器
     @Getter
     @Setter
     private RecipeModifier recipeModifier;
+    /// 是否坚持修饰配方
     @Getter
     @Setter
     private boolean alwaysTryModifyRecipe;
     @NotNull
     @Getter
     @Setter
+    /// 是否允许开始配方
     private BiPredicate<IRecipeLogicMachine, BTRecipe> beforeWorking = (machine, recipe) -> true;
     @NotNull
     @Getter
     @Setter
+    /// 是否允许
     private Predicate<IRecipeLogicMachine> onWorking = (machine) -> true;
     @NotNull
     @Getter
