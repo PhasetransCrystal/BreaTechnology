@@ -13,6 +13,9 @@ public class BTMachines {
     }
 
     public static MetaMachineDefinition<?> TEST_MACHINE = REGISTRATE.machine("test_machine", MetaMachine::new)
+            .transform(builder->{
+                builder.setPaintingColor(0xFFFF0000);
+            })
             .register();
 
     public static void init() {

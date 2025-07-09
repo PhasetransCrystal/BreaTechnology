@@ -164,9 +164,6 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
     private NonNullConsumer<BlockEntityType<BlockEntity>> onBlockEntityRegister = MetaMachineBlockEntity::onBlockEntityRegister;
     @Getter // getter for KJS
     private BTRecipeType @Nullable [] recipeTypes;
-    @Getter
-    @Setter // getter for KJS
-    private int tier;
     @Setter
     private Object2IntMap<RecipeCapability<?>> recipeOutputLimits = new Object2IntOpenHashMap<>();
     @Setter
@@ -257,6 +254,11 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
         return definitionFactory.apply(owner, ResourceLocation.fromNamespaceAndPath(owner.getModid(), name));
     }
 
+    public MachineBuilder<DEFINITION>transform(Consumer<MachineBuilder<DEFINITION>>config){
+        config.accept(this);
+        return this;
+    }
+
     public @NotNull DEFINITION register() {
         var definition = createDefinition();
 
@@ -286,7 +288,6 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
         definition.setBlockEntityTypeSupplier(blockEntity::get);
         definition.setMachineSupplier(machineFactory);
 
-        definition.setTier(tier);
         definition.setRecipeOutputLimits(recipeOutputLimits);
         definition.setTooltipBuilder((itemStack, components) -> {
             components.addAll(tooltips);
