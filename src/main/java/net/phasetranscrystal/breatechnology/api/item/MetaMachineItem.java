@@ -14,7 +14,7 @@ import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition
 import net.phasetranscrystal.breatechnology.api.machine.IMachineBlock;
 import org.jetbrains.annotations.Nullable;
 
-public class MetaMachineItem extends BlockItem {
+public class MetaMachineItem extends BlockItem implements IItemRendererProvider {
 
     public MetaMachineItem(IMachineBlock block, Properties properties) {
         super(block.self(), properties);
@@ -22,5 +22,11 @@ public class MetaMachineItem extends BlockItem {
 
     public MetaMachineDefinition getDefinition() {
         return ((IMachineBlock) getBlock()).getDefinition();
+    }
+
+    @Nullable
+    @Override
+    public IRenderer getRenderer(ItemStack stack) {
+        return ((IMachineBlock) getBlock()).getDefinition().getRenderer();
     }
 }

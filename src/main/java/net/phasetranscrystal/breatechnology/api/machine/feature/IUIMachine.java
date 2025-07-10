@@ -7,9 +7,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
+
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.gui.factory.MachineUIFactory;
 
+/// 带UI支持的机器接口
 public interface IUIMachine extends IUIHolder, IMachineFeature {
 
     default boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {

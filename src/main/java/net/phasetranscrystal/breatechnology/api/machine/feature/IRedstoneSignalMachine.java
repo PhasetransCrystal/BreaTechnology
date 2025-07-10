@@ -2,7 +2,7 @@ package net.phasetranscrystal.breatechnology.api.machine.feature;
 
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
-/// 红石信号接口
+/// 带红石信号支持的机器接口
 public interface IRedstoneSignalMachine extends IMachineFeature {
 
     default int getOutputSignal(@Nullable Direction side) {

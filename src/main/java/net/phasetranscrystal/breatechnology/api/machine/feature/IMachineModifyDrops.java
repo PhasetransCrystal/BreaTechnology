@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+/// 处理掉落的机器接口
 public interface IMachineModifyDrops extends IMachineFeature {
 
     /**

@@ -1,6 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.cover;
 
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -10,16 +9,11 @@ import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.phasetranscrystal.breatechnology.api.capability.ICoverable;
-import net.phasetranscrystal.breatechnology.api.gui.factory.CoverUIFactory;
 import net.phasetranscrystal.breatechnology.api.gui.fancy.IFancyConfigurator;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import net.phasetranscrystal.breatechnology.api.machine.feature.multiblock.IMultiController;
@@ -29,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Represents cover instance attached on the specific side of meta tile entity
@@ -135,23 +128,6 @@ public abstract class CoverBehavior implements IEnhancedManaged{
         return false;
     }
 
-    //////////////////////////////////////
-    // ******* Interaction *******//
-    //////////////////////////////////////
-    public ItemInteractionResult onScrewdriverClick(Player playerIn, InteractionHand hand, ItemStack held, BlockHitResult hitResult) {
-        if (this instanceof IUICover) {
-            if (playerIn instanceof ServerPlayer serverPlayer) {
-                CoverUIFactory.INSTANCE.openUI(this, serverPlayer);
-            }
-            playerIn.swing(hand);
-            return ItemInteractionResult.CONSUME;
-        }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    public ItemInteractionResult onSoftMalletClick(Player playerIn, InteractionHand hand, ItemStack held, BlockHitResult hitResult) {
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
     //////////////////////////////////////
     // ******* Rendering ********//
     //////////////////////////////////////

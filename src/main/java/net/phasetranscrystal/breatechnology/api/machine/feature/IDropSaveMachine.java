@@ -3,9 +3,7 @@ package net.phasetranscrystal.breatechnology.api.machine.feature;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
 
-/**
- * A machine that can save its contents when dropped.
- */
+/// 破坏保留数据的机器接口
 public interface IDropSaveMachine extends IMachineFeature {
 
     /**

@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.phasetranscrystal.breatechnology.api.block.MetaMachineBlock;
 import org.jetbrains.annotations.Nullable;
 
-
+/// 带时效的机器接口
 public interface IMachineLife extends IMachineFeature {
 
     /**

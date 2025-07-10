@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 public class BTUtil {
     public static final Direction[] DIRECTIONS = Direction.values();
 
-
     @Nullable
     public static Direction determineWrenchingSide(Direction facing, float x, float y, float z) {
         Direction opposite = facing.getOpposite();

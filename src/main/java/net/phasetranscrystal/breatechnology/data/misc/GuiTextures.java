@@ -1,6 +1,5 @@
-package net.phasetranscrystal.breatechnology.api.gui;
+package net.phasetranscrystal.breatechnology.data.misc;
 
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 

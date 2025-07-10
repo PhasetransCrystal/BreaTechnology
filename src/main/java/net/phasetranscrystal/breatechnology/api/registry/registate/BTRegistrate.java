@@ -150,10 +150,6 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
         return super.item(name, factory).lang(FormattingUtil.toEnglishName(name.replaceAll("\\.", "_")));
     }
 
-    static {
-        BTRegistries.MACHINES.unfreeze();
-    }
-
     public <DEFINITION extends MetaMachineDefinition<?>>
     MachineBuilder<DEFINITION> machine(String name,
                                        BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,

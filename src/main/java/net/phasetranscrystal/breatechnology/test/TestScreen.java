@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.phasetranscrystal.breatechnology.api.gui.GuiTextures;
+import net.phasetranscrystal.breatechnology.data.misc.GuiTextures;
 import org.jetbrains.annotations.Nullable;
 
 // 界面，复制渲染部分

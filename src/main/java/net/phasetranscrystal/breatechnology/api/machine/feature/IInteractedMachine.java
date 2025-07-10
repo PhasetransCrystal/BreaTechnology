@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
+/// 可以点击的机器接口
 public interface IInteractedMachine extends IMachineFeature {
 
     /**
