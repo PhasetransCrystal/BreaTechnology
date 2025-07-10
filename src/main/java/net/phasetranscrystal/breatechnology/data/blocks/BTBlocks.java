@@ -3,8 +3,13 @@ package net.phasetranscrystal.breatechnology.data.blocks;
 import appeng.datagen.AE2DataGenerators;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.common.Tags;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
 
@@ -17,6 +22,11 @@ public class BTBlocks {
 
     public static RegistryEntry<Block, Block> TEST_BLOCK = REGISTRATE.block("test_block", Block::new)
             .simpleItem()
+            .properties(prop -> prop.strength(4.0F, 7.0F).lightLevel(state -> 4))
+            .setData(ProviderType.BLOCKSTATE, (ctx, type) -> {
+                type.simpleBlockWithItem(ctx.get(), new ModelFile.ExistingModelFile(BreaTechnology.id("block/tm"), type.models().existingFileHelper));
+            })
+            .tag(BlockTags.NEEDS_IRON_TOOL, BlockTags.MINEABLE_WITH_AXE, BlockTags.MINEABLE_WITH_PICKAXE)
             .lang("Test Block")
             .register();
 
