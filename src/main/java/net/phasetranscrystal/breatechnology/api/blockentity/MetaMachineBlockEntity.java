@@ -27,29 +27,38 @@ import java.util.Set;
 
 /// 机器方块的方块实体类
 public class MetaMachineBlockEntity extends MetaBlockEntity implements IMachineBlockEntity {
+    /// 机器存储区
     public final MultiManagedStorage managedStorage = new MultiManagedStorage();
+    /// 机器元数据
     @Getter
     public final MetaMachine metaMachine;
+    /// 随机时刻偏移
+    @Getter
     private final long offset = BTValues.RNG.nextInt(20);
 
+    /// 构造函数
     public MetaMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
         this.metaMachine = getDefinition().createMetaMachine(this);
     }
 
+    /// 工厂函数
     public static MetaMachineBlockEntity createBlockEntity(BlockEntityType<?> type, BlockPos pos,
                                                            BlockState blockState) {
         return new MetaMachineBlockEntity(type, pos, blockState);
     }
 
+    /// 方块实体注册回调
     public static void onBlockEntityRegister(BlockEntityType<BlockEntity> type) {
     }
 
+    /// 获取机器存储区
     @Override
     public @NotNull MultiManagedStorage getRootStorage() {
         return managedStorage;
     }
 
+    /// 是否处理事件
     @Override
     public boolean triggerEvent(int id, int para) {
         if (id == 1) { // chunk re render
@@ -62,30 +71,25 @@ public class MetaMachineBlockEntity extends MetaBlockEntity implements IMachineB
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+    protected void applyImplicitComponents(BlockEntity.@NotNull DataComponentInput componentInput) {
         super.applyImplicitComponents(componentInput);
         metaMachine.applyImplicitComponents(new ExDataComponentInput() {
             @Override
-            public @Nullable <T> T get(DataComponentType<T> component) {
+            public @Nullable <T> T get(@NotNull DataComponentType<T> component) {
                 return componentInput.get(component);
             }
 
             @Override
-            public <T> T getOrDefault(DataComponentType<? extends T> component, T defaultValue) {
+            public <T> @NotNull T getOrDefault(@NotNull DataComponentType<? extends T> component, @NotNull T defaultValue) {
                 return componentInput.getOrDefault(component, defaultValue);
             }
         });
     }
 
     @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder components) {
+    protected void collectImplicitComponents(DataComponentMap.@NotNull Builder components) {
         super.collectImplicitComponents(components);
         metaMachine.collectImplicitComponents(components);
-    }
-
-    @Override
-    public long getOffset() {
-        return offset;
     }
 
     @Override

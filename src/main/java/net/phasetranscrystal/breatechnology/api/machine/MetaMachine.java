@@ -21,6 +21,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -47,31 +48,40 @@ import java.util.List;
 import java.util.UUID;
 
 /// 机器基本方法
-public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppearance , IPaintable, IRedstoneSignalMachine {//},IToolable, IToolGridHighLight, IFancyTooltip, {
+public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppearance , IPaintable, IRedstoneSignalMachine {//,IToolable, IToolGridHighLight, IFancyTooltip, {
+    /// 机器数据管理器
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MetaMachine.class);
+    /// 机器异步存储
     @Getter
     private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
+    /// 所有者UUID
     @Setter
     @Getter
     @Persisted
     @DescSynced
     @Nullable
     private UUID ownerUUID;
+    /// 机器对应方块实体
     @Getter
     public final IMachineBlockEntity holder;
+    /// 覆盖版数据管理器
     @Getter
     @DescSynced
     @Persisted(key = "cover")
     protected final MachineCoverContainer coverContainer;
+    /// 机器绘制颜色
     @Getter
     @Setter
     @Persisted
     @DescSynced
     @RequireRerender
     private int paintingColor = -1;
+    /// 机器NBT属性列表
     @Getter
     protected final List<MachineTrait> traits;
+    /// 当前Tick事件列表
     private final List<TickableSubscription> serverTicks;
+    /// 预备Tick事件列表
     private final List<TickableSubscription> waitingToAdd;
 
     public MetaMachine(IMachineBlockEntity holder) {
@@ -80,7 +90,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         this.traits = new ArrayList<>();
         this.serverTicks = new ArrayList<>();
         this.waitingToAdd = new ArrayList<>();
-        // bind sync storage
+        // 绑定异步存储容器
         this.holder.getRootStorage().attach(getSyncStorage());
     }
     //////////////////////////////////////
@@ -101,22 +111,27 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
     }
 
+    /// 获取方块实体所在维度
     public @Nullable Level getLevel() {
         return holder.level();
     }
 
+    /// 获取方块实体坐标
     public BlockPos getPos() {
         return holder.pos();
     }
 
+    /// 获取方块实体对应BlockState
     public BlockState getBlockState() {
         return holder.getSelf().getBlockState();
     }
 
+    /// 方块是否被移除
     public boolean isRemote() {
         return getLevel() == null ? BreaTechnology.isClientThread() : getLevel().isClientSide;
     }
 
+    /// 通知方块更新
     public void notifyBlockUpdate() {
         holder.notifyBlockUpdate();
     }
@@ -138,15 +153,16 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
     public long getOffsetTimer() {
         return holder.getOffsetTimer();
     }
-
+    /// 标识方块数据被修改
     public void markDirty() {
         holder.getSelf().setChanged();
     }
-
+    /// 方块实体是否被删除
     public boolean isInValid() {
         return holder.getSelf().isRemoved();
     }
 
+    /// {@link BlockEntity#setRemoved()}
     public void onUnload() {
         traits.forEach(MachineTrait::onMachineUnLoad);
         coverContainer.onUnload();
@@ -156,6 +172,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         serverTicks.clear();
     }
 
+    /// {@link BlockEntity#clearRemoved()}
     public void onLoad() {
         traits.forEach(MachineTrait::onMachineLoad);
         coverContainer.onLoad();
@@ -179,9 +196,11 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
     }
 
+    /// {@link BlockEntity#applyImplicitComponents(BlockEntity.DataComponentInput)}
     public void applyImplicitComponents(MetaMachineBlockEntity.ExDataComponentInput componentInput) {
     }
 
+    /// {@link BlockEntity#collectImplicitComponents(DataComponentMap.Builder)}
     public void collectImplicitComponents(DataComponentMap.Builder components) {
     }
 
@@ -226,6 +245,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
     }
 
+    /// 服务端Tick逻辑
     public final void serverTick() {
         executeTick();
         if (serverTicks.isEmpty() && waitingToAdd.isEmpty() && !isInValid()) {
@@ -235,6 +255,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
 
     public boolean isFirstDummyWorldTick = true;
 
+    /// 客户端Tick逻辑
     @OnlyIn(Dist.CLIENT)
     public void clientTick() {
         if (getLevel() instanceof DummyWorld) {
@@ -246,6 +267,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
     }
 
+    /// 执行Tick逻辑
     private void executeTick() {
         if (!waitingToAdd.isEmpty()) {
             serverTicks.addAll(waitingToAdd);
@@ -284,6 +306,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         traits.add(trait);
     }
 
+    /// 清除仓储数据
     public void clearInventory(IItemHandlerModifiable inventory) {
         for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stackInSlot = inventory.getStackInSlot(i);
@@ -294,13 +317,12 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
     }
 
-    public MetaMachineDefinition getDefinition() {
+    public MetaMachineDefinition<?> getDefinition() {
         return holder.getDefinition();
     }
 
     /**
-     * Called to obtain list of AxisAlignedBB used for collision testing, highlight rendering
-     * and ray tracing this meta tile entity's block in world
+     * 添加CollisionBoundingBox
      */
     public void addCollisionBoundingBox(List<VoxelShape> collisionList) {
         collisionList.add(Shapes.block());
@@ -375,7 +397,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
             }
         }
     }
-
+    /// 方块旋转事件钩子
     public void onRotated(Direction oldFacing, Direction newFacing) {
     }
 
@@ -383,6 +405,7 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         return getDefinition().isEnableExtraRotation();
     }
 
+    /// 着色颜色
     public int tintColor(int index) {
         // index < -100 => emission if shimmer is installed.
         if (index == 1 || index == -111) {
@@ -390,14 +413,16 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
         return -1;
     }
-
+    /// 周围方块更新事件钩子
     public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
         coverContainer.onNeighborChanged(block, fromPos, isMoving);
     }
 
+    /// 处理Tick逻辑
     public void animateTick(RandomSource random) {
     }
 
+    /// 获取机器外观逻辑
     @Override
     @NotNull
     public BlockState getBlockAppearance(BlockState state, BlockAndTintGetter level, BlockPos pos, Direction side,
@@ -440,10 +465,12 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
 
     /// ///////////////////////////////////
 
+    /// 获取机器所有者
     public @Nullable MachineOwner getOwner() {
         return MachineOwner.getOwner(ownerUUID);
     }
 
+    /// 获取机器所有玩家
     public @Nullable PlayerOwner getPlayerOwner() {
         return MachineOwner.getPlayerOwner(ownerUUID);
     }

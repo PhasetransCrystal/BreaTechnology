@@ -23,6 +23,7 @@ import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.definition.MetaDefinition;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
 import net.phasetranscrystal.breatechnology.api.machine.trait.MachineTrait;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -31,17 +32,22 @@ import java.util.List;
 
 /// 机器方块基本方法接口
 public interface IMachineBlock extends EntityBlock, IBlockRendererProvider {
+    /// 是否进行Tick的属性
     BooleanProperty SERVER_TICK = BooleanProperty.create("server_tick");
+    /// 额外旋转的属性
     EnumProperty<ExtraRotate> EXTRA_ROTATE = EnumProperty.create("extra_rotate", ExtraRotate.class);
-    //DirectionProperty UPWARDS_FACING_PROPERTY = DirectionProperty.create("upwards_facing", Direction.Plane.HORIZONTAL);
 
+    /// 获取机器方块本体
     default Block self() {
         return (Block) this;
     }
 
-    MetaMachineDefinition getDefinition();
+    /// 获取机器的定义数据
+    MetaMachineDefinition<?> getDefinition();
 
+    /// 获取机器的朝向逻辑
     RotationState getRotationState();
+    /// 获取机器着色颜色
     static int colorTinted(BlockState blockState, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos,
                            int index) {
         if (level != null && pos != null) {
@@ -52,15 +58,17 @@ public interface IMachineBlock extends EntityBlock, IBlockRendererProvider {
         }
         return -1;
     }
+    /// 创建新机器方块实体
     @Nullable
     @Override
-    default BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    default BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return getDefinition().getBlockEntityType().create(pos, state);
     }
+    /// 进行tick逻辑
     @Nullable
     @Override
-    default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-                                                                   BlockEntityType<T> blockEntityType) {
+    default <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state,
+                                                                   @NotNull BlockEntityType<T> blockEntityType) {
         if (blockEntityType == getDefinition().getBlockEntityType()) {
             if (state.getValue(SERVER_TICK) && !level.isClientSide) {
                 return (pLevel, pPos, pState, pTile) -> {
@@ -78,35 +86,5 @@ public interface IMachineBlock extends EntityBlock, IBlockRendererProvider {
             }
         }
         return null;
-    }
-
-    default void attachCapabilities(RegisterCapabilitiesEvent event) {
-        if (BreaTechnology.Mods.isAE2Loaded()) {
-            event.registerBlock(AECapabilities.IN_WORLD_GRID_NODE_HOST, (level, pos, state, blockEntity, side) -> {
-                if (blockEntity instanceof IMachineBlockEntity machine) {
-                    if (machine.getMetaMachine() instanceof IInWorldGridNodeHost nodeHost) {
-                        return nodeHost;
-                    }
-                    var list = getCapabilitiesFromTraits(machine.getMetaMachine().getTraits(), null,
-                            IInWorldGridNodeHost.class);
-                    if (!list.isEmpty()) {
-                        // TODO wrap list in the future (or not.)
-                        return list.getFirst();
-                    }
-                }
-                return null;
-            }, this.self());
-        }
-    }
-    static <T> List<T> getCapabilitiesFromTraits(List<MachineTrait> traits, @Nullable Direction accessSide,
-                                                 Class<T> capability) {
-        if (traits.isEmpty()) return Collections.emptyList();
-        List<T> list = new ArrayList<>();
-        for (MachineTrait trait : traits) {
-            if (trait.hasCapability(accessSide) && capability.isInstance(trait)) {
-                list.add(capability.cast(trait));
-            }
-        }
-        return list;
     }
 }
