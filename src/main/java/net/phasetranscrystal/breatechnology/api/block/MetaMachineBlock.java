@@ -2,7 +2,9 @@ package net.phasetranscrystal.breatechnology.api.block;
 
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import icyllis.modernui.mc.TooltipRenderer;
 import lombok.Getter;
+import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -43,7 +45,6 @@ import net.phasetranscrystal.breatechnology.api.machine.*;
 import net.phasetranscrystal.breatechnology.api.machine.feature.*;
 import net.phasetranscrystal.breatechnology.api.utils.BTUtil;
 import net.phasetranscrystal.breatechnology.common.machine.owner.MachineOwner;
-import net.phasetranscrystal.breatechnology.data.menus.BTMenus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

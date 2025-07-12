@@ -12,6 +12,9 @@ public class MetaDefinition<S extends MetaDefinition<S>> {
     private final ResourceLocation id;
     @Getter
     private final AbstractRegistrate<?> owner;
+    public S Self(){
+        return (S) this;
+    }
 
     protected MetaDefinition(AbstractRegistrate<?> owner, ResourceLocation id) {
         this.owner = owner;

@@ -10,11 +10,11 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
-import net.phasetranscrystal.breatechnology.data.blockentities.BTBlockEntities;
 import net.phasetranscrystal.breatechnology.data.blocks.BTBlocks;
 import net.phasetranscrystal.breatechnology.data.breatech.BTMachines;
+import net.phasetranscrystal.breatechnology.data.fluids.BTFluids;
 import net.phasetranscrystal.breatechnology.data.items.BTItems;
-import net.phasetranscrystal.breatechnology.data.menus.BTMenus;
+import net.phasetranscrystal.breatechnology.data.materials.BTMaterials;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
 
 public class CommonInit {
@@ -23,16 +23,14 @@ public class CommonInit {
 
         initMaterials();
 
+        BTFluids.init();
         BTCreativeModeTabs.init();
         BTBlocks.init();
-
-        BTBlockEntities.init();
 
         BTMachines.init();
 
         BTItems.init();
-
-        BTMenus.init();
+        BTMaterials.init();
     }
 
     private static void initMaterials() {

@@ -7,20 +7,24 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.cover.CoverDefinition;
-import net.phasetranscrystal.breatechnology.api.definition.MetaBlockDefinition;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
+import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
 import org.jetbrains.annotations.ApiStatus;
 
 public class BTRegistries {
-    public static final BTRegistry.RL<MetaBlockDefinition> BlockDefinitions = new BTRegistry.RL<>(BreaTechnology.id("meta_block_definitions"));
-    public static final BTRegistry.RL<MetaMachineDefinition> MACHINES = new BTRegistry.RL<>(BreaTechnology.id("machines"));
-    public static final BTRegistry.String<ResourceTexture>GUI_TEXTURES=new BTRegistry.String<>(BreaTechnology.id("gui_textures"));
+    public static final ResourceKey<Registry<MetaMaterial<?>>> MATERIALS =
+            ResourceKey.createRegistryKey(BreaTechnology.id("material"));
+    public static final ResourceKey<Registry<MetaMachineDefinition<?>>> MACHINE_DEFINITIONS =
+            ResourceKey.createRegistryKey(BreaTechnology.id("machine_definitions"));
+
+    public static final BTRegistry.String<ResourceTexture> GUI_TEXTURES = new BTRegistry.String<>(BreaTechnology.id("gui_textures"));
     public static final BTRegistry.RL<CoverDefinition> COVERS = new BTRegistry.RL<>(BreaTechnology.id("covers"));
 
     private static final Table<Registry<?>, ResourceLocation, Object> TO_REGISTER = HashBasedTable.create();

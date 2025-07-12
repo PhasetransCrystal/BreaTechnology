@@ -14,12 +14,8 @@ lombok = "8.20"
 [[dependencies.${mod_id}]]
 modId="neoforge"
 type="required"
-versionRange="${neo_version_range}" #mandatory
-# 依赖项的顺序关系。
-# BEFORE - 该模组在依赖项之前加载
-# AFTER - 该模组在依赖项之后加载
+versionRange="${neo_version_range}"
 ordering="NONE"
-# 依赖项应用于哪一侧 - BOTH（两者）、CLIENT（客户端）或 SERVER（服务器）
 side="BOTH"
 
 [[dependencies.${mod_id}]]

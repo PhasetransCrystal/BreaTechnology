@@ -9,7 +9,9 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.blockentity.MetaMachineBlockEntity;
 import net.phasetranscrystal.breatechnology.api.gui.egitor.EditableMachineUI;
 import net.phasetranscrystal.breatechnology.api.item.MetaMachineItem;
@@ -37,9 +40,11 @@ import java.util.function.*;
 
 /// 基础机器定义信息
 public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends MetaBlockDefinition<T> implements Supplier<IMachineBlock> {
+
     public MetaMachineDefinition(AbstractRegistrate<?> owner, ResourceLocation id) {
         super(owner, id);
     }
+
     // This is only stored here for KJS use.
     @Getter
     @Setter

@@ -26,6 +26,12 @@ public class BTCreativeModeTabs {
                     .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("machine_tab"), BreaTechnology.NAME + "Machine Tab"))
                     .build())
             .register();
+    public static RegistryEntry<CreativeModeTab,CreativeModeTab>MATERIAL_TAB=REGISTRATE.defaultCreativeTab("material_tab",
+            builder -> builder.displayItems(new RegistrateDisplayItemsGenerator("material_tab", REGISTRATE))
+                    .icon(Items.IRON_INGOT::getDefaultInstance)
+                    .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("material_tab"), BreaTechnology.NAME + "Material Tab"))
+                    .build())
+            .register();
 
     public static void init() {
     }

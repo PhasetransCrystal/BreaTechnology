@@ -1,18 +1,17 @@
-package net.phasetranscrystal.breatechnology.api.machine.builder;
+package net.phasetranscrystal.breatechnology.api.registry.registate.builders;
 
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.builders.*;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import com.tterrag.registrate.util.nullness.NonNullConsumer;
-import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.nullness.*;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.Tolerate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -42,7 +41,6 @@ import net.phasetranscrystal.breatechnology.api.recipe.BTRecipeType;
 import net.phasetranscrystal.breatechnology.api.recipe.capability.RecipeCapability;
 import net.phasetranscrystal.breatechnology.api.recipe.kind.BTRecipe;
 import net.phasetranscrystal.breatechnology.api.recipe.modifier.RecipeModifier;
-import net.phasetranscrystal.breatechnology.api.recipe.modifier.RecipeModifierList;
 import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.renderer.BTRendererProvider;
 import net.phasetranscrystal.breatechnology.config.ConfigHolder;
@@ -57,11 +55,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.*;
 
-public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
-    /// 注册器
-    protected final AbstractRegistrate<?> owner;
-    /// 机器id
-    protected final String name;
+@Accessors(chain = true, fluent = true)
+public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extends AbstractBuilder<MetaMachineDefinition<?>,DEFINITION,P,MachineBuilder<DEFINITION,P>> {
+
     /// 机器定义数据工厂
     protected BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory;
     /// 机器元数据
@@ -73,32 +69,35 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
     /// 机器实体工厂
     protected final TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory;
 
-    public MachineBuilder(AbstractRegistrate<?> owner, String name,
+    public MachineBuilder(AbstractRegistrate<?> owner, P parent, String name,
                           BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
+                          BuilderCallback callback,
                           Function<IMachineBlockEntity, MetaMachine> machineFactory,
                           BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
                           BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
                           TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
-        this.owner = owner;
-        this.name = name;
+        super(owner, parent, name, callback, BTRegistries.MACHINE_DEFINITIONS);
         this.definitionFactory = definitionFactory;
         this.machineFactory = machineFactory;
         this.blockFactory = blockFactory;
         this.itemFactory = itemFactory;
         this.blockEntityFactory = blockEntityFactory;
     }
+
     /// 渲染器工厂
     @Nullable
     @Setter
     private Supplier<IRenderer> renderer;
+
     /// 设置以Model为源的渲染器
-    public MachineBuilder<DEFINITION> modelRenderer(Supplier<ResourceLocation> model) {
+    public MachineBuilder<DEFINITION, P> modelRenderer(Supplier<ResourceLocation> model) {
         this.renderer = () -> IRenderer.EMPTY;//new MachineRenderer(model.get());
         return this;
     }
+
     /// 设置为默认渲染器
-    public MachineBuilder<DEFINITION> defaultModelRenderer() {
-        return modelRenderer(() -> ResourceLocation.fromNamespaceAndPath(owner.getModid(), "block/" + name));
+    public MachineBuilder<DEFINITION, P> defaultModelRenderer() {
+        return modelRenderer(() -> ResourceLocation.fromNamespaceAndPath(getOwner().getModid(), "block/" + getName()));
     }
     /*
     public MachineBuilder<DEFINITION> tieredHullRenderer(ResourceLocation model) {
@@ -211,11 +210,13 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
     @NotNull
     @Getter
     @Setter
-    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {};
+    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {
+    };
     @NotNull
     @Getter
     @Setter
-    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {};
+    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {
+    };
     @Getter
     @Setter
     private boolean regressWhenWaiting = true;
@@ -231,35 +232,41 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
     @Setter
     @Nullable
     private String langValue = null;
+
     /// 添加机器配方
-    public MachineBuilder<DEFINITION> recipeType(BTRecipeType type) {
+    public MachineBuilder<DEFINITION, P> recipeType(BTRecipeType type) {
         this.recipeTypes = ArrayUtils.add(this.recipeTypes, type);
         return this;
     }
+
     /// 添加机器配方
     @Tolerate
-    public MachineBuilder<DEFINITION> recipeTypes(BTRecipeType... types) {
+    public MachineBuilder<DEFINITION, P> recipeTypes(BTRecipeType... types) {
         for (BTRecipeType type : types) {
             this.recipeTypes = ArrayUtils.add(this.recipeTypes, type);
         }
         return this;
     }
+
     /// 机器外观逻辑
-    public MachineBuilder<DEFINITION> appearanceBlock(Supplier<? extends Block> block) {
+    public MachineBuilder<DEFINITION, P> appearanceBlock(Supplier<? extends Block> block) {
         appearance = () -> block.get().defaultBlockState();
         return this;
     }
+
     /// 机器提示词逻辑
-    public MachineBuilder<DEFINITION> tooltips(Component... components) {
+    public MachineBuilder<DEFINITION, P> tooltips(Component... components) {
         tooltips.addAll(Arrays.stream(components).toList());
         return this;
     }
+
     /// 机器提示词逻辑（一定条件下）
-    public MachineBuilder<DEFINITION> conditionalTooltip(Component component, Supplier<Boolean> condition) {
+    public MachineBuilder<DEFINITION, P> conditionalTooltip(Component component, Supplier<Boolean> condition) {
         return conditionalTooltip(component, condition.get());
     }
+
     /// 机器提示词逻辑（一定条件下）
-    public MachineBuilder<DEFINITION> conditionalTooltip(Component component, boolean condition) {
+    public MachineBuilder<DEFINITION, P> conditionalTooltip(Component component, boolean condition) {
         if (condition)
             tooltips.add(component);
         return this;
@@ -293,30 +300,40 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
         return this;
     }
     */
+
     /// 添加输出限制
-    public MachineBuilder<DEFINITION> addOutputLimit(RecipeCapability<?> capability, int limit) {
+    public MachineBuilder<DEFINITION, P> addOutputLimit(RecipeCapability<?> capability, int limit) {
         this.recipeOutputLimits.put(capability, limit);
         return this;
     }
+
     /// 是否渲染多方快
-    public MachineBuilder<DEFINITION> multiblockPreviewRenderer(boolean multiBlockWorldPreview,
-                                                                boolean multiBlockXEIPreview) {
+    public MachineBuilder<DEFINITION, P> multiblockPreviewRenderer(boolean multiBlockWorldPreview,
+                                                                   boolean multiBlockXEIPreview) {
         this.renderMultiblockWorldPreview = multiBlockWorldPreview;
         this.renderMultiblockXEIPreview = multiBlockXEIPreview;
         return this;
     }
-    /// 构建机器定义数据
-    protected DEFINITION createDefinition() {
-        return definitionFactory.apply(owner, ResourceLocation.fromNamespaceAndPath(owner.getModid(), name));
-    }
+
     /// Builder处理
-    public MachineBuilder<DEFINITION>transform(Consumer<MachineBuilder<DEFINITION>>config){
+    public MachineBuilder<DEFINITION, P> transform(Consumer<MachineBuilder<DEFINITION, P>> config) {
         config.accept(this);
         return this;
     }
+
+    private DEFINITION definition;
+
+    @Override
+    protected @NonnullType @NotNull DEFINITION createEntry() {
+        if (definition == null) {
+            definition = definitionFactory.apply(getOwner(), ResourceLocation.fromNamespaceAndPath(getOwner().getModid(), getName()));
+        }
+        return definition;
+    }
+
     /// 注册
-    public @NotNull DEFINITION register() {
-        var definition = createDefinition();
+    public RegistryEntry<MetaMachineDefinition<?>, DEFINITION> register() {
+        var definition = createEntry();
 
         var blockBuilder = BlockBuilderWrapper.makeBlockBuilder(this, definition);
         if (this.langValue != null) {
@@ -334,8 +351,8 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
         }
         var item = itemBuilder.register();
 
-        var blockEntityBuilder = owner
-                .blockEntity(name, (type, pos, state) -> blockEntityFactory.apply(type, pos, state).self())
+        var blockEntityBuilder = getOwner()
+                .blockEntity(getName(), (type, pos, state) -> blockEntityFactory.apply(type, pos, state).self())
                 .onRegister(onBlockEntityRegister)
                 .validBlock(block);
         if (hasTESR) {
@@ -367,7 +384,7 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
         if (recipeTypes != null) {
             for (BTRecipeType type : recipeTypes) {
                 Objects.requireNonNull(type, "Cannot use null recipe type for machine %s:%s"
-                        .formatted(owner.getModid(), this.name));
+                        .formatted(getOwner().getModid(), getName()));
                 if (type.getIconSupplier() == null) {
                     type.setIconSupplier(definition::asStack);
                 }
@@ -387,17 +404,15 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
         definition.setRenderXEIPreview(renderMultiblockXEIPreview);
         definition.setRenderWorldPreview(renderMultiblockWorldPreview);
 
-        BTRegistries.MACHINES.register(definition.getId(),definition);
-
-        return definition;
+        return super.register();
     }
 
     static class BlockBuilderWrapper {
 
         @SuppressWarnings("removal")
-        public static <D extends MetaMachineDefinition<?>> BlockBuilder<Block, MachineBuilder<D>>
-        makeBlockBuilder(MachineBuilder<D> builder, D definition) {
-            return builder.owner.block(builder, builder.name, prop -> {
+        public static <D extends MetaMachineDefinition<?>, P> BlockBuilder<Block, MachineBuilder<D, P>>
+        makeBlockBuilder(MachineBuilder<D, P> builder, D definition) {
+            return builder.getOwner().block(builder, builder.getName(), prop -> {
                         RotationState.setPreState(builder.rotationState);
                         MetaMachineDefinition.setBuilt(definition);
                         var b = builder.blockFactory.apply(prop, definition);
@@ -416,9 +431,9 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>> {
 
     static class ItemBuilderWrapper {
 
-        public static <D extends MetaMachineDefinition<?>> ItemBuilder<MetaMachineItem, MachineBuilder<D>>
-        makeItemBuilder(MachineBuilder<D> builder, BlockEntry<Block> block) {
-            return builder.owner.item(builder, builder.name, prop ->
+        public static <D extends MetaMachineDefinition<?>, P> ItemBuilder<MetaMachineItem, MachineBuilder<D, P>>
+        makeItemBuilder(MachineBuilder<D, P> builder, BlockEntry<Block> block) {
+            return builder.getOwner().item(builder, builder.getName(), prop ->
                             builder.itemFactory.apply((IMachineBlock) block.get(), prop))
                     .setData(ProviderType.LANG, NonNullBiConsumer.noop()) // do not gen any lang keys
                     .model(NonNullBiConsumer.noop())
