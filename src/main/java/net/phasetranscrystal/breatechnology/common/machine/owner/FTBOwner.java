@@ -8,6 +8,7 @@ import dev.ftb.mods.ftbteams.data.PlayerTeam;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;

@@ -1,32 +1,23 @@
 package net.phasetranscrystal.breatechnology.api.blockentity;
 
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
-import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
-import icyllis.modernui.fragment.Fragment;
-import icyllis.modernui.mc.neoforge.MenuScreenFactory;
-import lombok.Getter;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.world.Container;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.phasetranscrystal.breatechnology.api.BTValues;
 import net.phasetranscrystal.breatechnology.api.machine.IMachineBlockEntity;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
+
+import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-
 /// 机器方块的方块实体类
 public class MetaMachineBlockEntity extends MetaBlockEntity implements IMachineBlockEntity {
+
     /// 机器存储区
     public final MultiManagedStorage managedStorage = new MultiManagedStorage();
     /// 机器元数据
@@ -49,8 +40,7 @@ public class MetaMachineBlockEntity extends MetaBlockEntity implements IMachineB
     }
 
     /// 方块实体注册回调
-    public static void onBlockEntityRegister(BlockEntityType<BlockEntity> type) {
-    }
+    public static void onBlockEntityRegister(BlockEntityType<BlockEntity> type) {}
 
     /// 获取机器存储区
     @Override
@@ -74,6 +64,7 @@ public class MetaMachineBlockEntity extends MetaBlockEntity implements IMachineB
     protected void applyImplicitComponents(BlockEntity.@NotNull DataComponentInput componentInput) {
         super.applyImplicitComponents(componentInput);
         metaMachine.applyImplicitComponents(new ExDataComponentInput() {
+
             @Override
             public @Nullable <T> T get(@NotNull DataComponentType<T> component) {
                 return componentInput.get(component);
@@ -114,6 +105,5 @@ public class MetaMachineBlockEntity extends MetaBlockEntity implements IMachineB
     /**
      * Extending interface to make {@link BlockEntity.DataComponentInput} public as it's protected by default.
      */
-    public interface ExDataComponentInput extends BlockEntity.DataComponentInput {
-    }
+    public interface ExDataComponentInput extends BlockEntity.DataComponentInput {}
 }

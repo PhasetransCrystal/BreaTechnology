@@ -1,10 +1,6 @@
 package net.phasetranscrystal.breatechnology.api.machine;
 
-import appeng.api.AECapabilities;
-import appeng.api.networking.IInWorldGridNodeHost;
-import com.lowdragmc.lowdraglib.client.renderer.IBlockRendererProvider;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -14,24 +10,16 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.phasetranscrystal.breatechnology.BreaTechnology;
-import net.phasetranscrystal.breatechnology.api.definition.MetaDefinition;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
-import net.phasetranscrystal.breatechnology.api.machine.trait.MachineTrait;
+
+import com.lowdragmc.lowdraglib.client.renderer.IBlockRendererProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /// 机器方块基本方法接口
 public interface IMachineBlock extends EntityBlock, IBlockRendererProvider {
+
     /// 是否进行Tick的属性
     BooleanProperty SERVER_TICK = BooleanProperty.create("server_tick");
     /// 额外旋转的属性
@@ -47,6 +35,7 @@ public interface IMachineBlock extends EntityBlock, IBlockRendererProvider {
 
     /// 获取机器的朝向逻辑
     RotationState getRotationState();
+
     /// 获取机器着色颜色
     static int colorTinted(BlockState blockState, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos,
                            int index) {
@@ -58,12 +47,14 @@ public interface IMachineBlock extends EntityBlock, IBlockRendererProvider {
         }
         return -1;
     }
+
     /// 创建新机器方块实体
     @Nullable
     @Override
     default BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return getDefinition().getBlockEntityType().create(pos, state);
     }
+
     /// 进行tick逻辑
     @Nullable
     @Override

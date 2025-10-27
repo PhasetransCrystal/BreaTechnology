@@ -1,13 +1,12 @@
 package net.phasetranscrystal.breatechnology.api.machine.feature;
 
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.phasetranscrystal.breatechnology.api.block.MetaMachineBlock;
+
 import org.jetbrains.annotations.Nullable;
 
 /// 带时效的机器接口

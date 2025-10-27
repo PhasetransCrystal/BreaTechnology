@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 /// 朝向限制状态枚举
 public enum RotationState implements Predicate<Direction> {
+
     /// 全部朝向
     ALL(dir -> true, Direction.NORTH, BlockStateProperties.FACING),
     /// 默认朝向

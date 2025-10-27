@@ -1,11 +1,11 @@
 package net.phasetranscrystal.breatechnology.integration.xei.handlers.item;
 
-
-import lombok.Getter;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.phasetranscrystal.breatechnology.integration.xei.entry.item.ItemEntryList;
 import net.phasetranscrystal.breatechnology.integration.xei.entry.item.ItemStackList;
+
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

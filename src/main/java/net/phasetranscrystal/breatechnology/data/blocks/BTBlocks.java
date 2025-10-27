@@ -1,21 +1,18 @@
 package net.phasetranscrystal.breatechnology.data.blocks;
 
-import appeng.datagen.AE2DataGenerators;
-import com.tterrag.registrate.providers.ProviderType;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.Tags;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
+
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 
 import static net.phasetranscrystal.breatechnology.common.registry.BTRegistration.REGISTRATE;
 
 public class BTBlocks {
+
     static {
         REGISTRATE.creativeModeTab(() -> BTCreativeModeTabs.TEST_TAB);
     }
@@ -30,6 +27,5 @@ public class BTBlocks {
             .lang("Test Block")
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }

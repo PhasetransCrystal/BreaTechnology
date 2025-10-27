@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -22,6 +21,7 @@ import net.phasetranscrystal.breatechnology.api.cover.CoverBehavior;
 import net.phasetranscrystal.breatechnology.api.cover.CoverDefinition;
 import net.phasetranscrystal.breatechnology.api.transfer.fluid.IFluidHandlerModifiable;
 import net.phasetranscrystal.breatechnology.api.utils.BTUtil;
+
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +33,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public interface ICoverable extends ITickSubscription, IAppearance {
+
     Level getLevel();
 
     BlockPos getPos();
@@ -60,6 +61,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
     IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability);
 
     IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability);
+
     /**
      * Internal method, do not call yourself.
      * <br/>
@@ -67,13 +69,14 @@ public interface ICoverable extends ITickSubscription, IAppearance {
      * {@link ICoverable#placeCoverOnSide(Direction, ItemStack, CoverDefinition, ServerPlayer)} instead
      *
      * @param coverBehavior the cover to set, or {@code null} to remove an existing cover
-     * @param side the side to set the cover for
+     * @param side          the side to set the cover for
      */
     @ApiStatus.Internal
     void setCoverAtSide(@Nullable CoverBehavior coverBehavior, Direction side);
 
     @Nullable
     CoverBehavior getCoverAtSide(Direction side);
+
     default boolean placeCoverOnSide(Direction side, ItemStack itemStack, CoverDefinition coverDefinition,
                                      ServerPlayer player) {
         CoverBehavior coverBehavior = coverDefinition.createCoverBehavior(this, side);
@@ -93,6 +96,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
         // AdvancementTriggers.FIRST_COVER_PLACE.trigger((PlayerMP) player);
         return true;
     }
+
     default boolean removeCover(boolean dropItself, Direction side, @Nullable Player player) {
         CoverBehavior coverBehavior = getCoverAtSide(side);
         if (coverBehavior == null) {
@@ -116,6 +120,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
         scheduleNeighborShapeUpdate();
         return true;
     }
+
     /**
      * Drop all attached covers on the ground
      */
@@ -124,6 +129,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
             removeCover(side, null);
         }
     }
+
     default boolean removeCover(Direction side, @Nullable Player player) {
         return removeCover(true, side, player);
     }
@@ -144,6 +150,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
             cover.onUnload();
         }
     }
+
     default void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
         for (CoverBehavior cover : getCovers()) {
             cover.onNeighborChanged(block, fromPos, isMoving);
@@ -156,6 +163,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
                 return true;
         return false;
     }
+
     default boolean hasCover(Direction facing) {
         return getCoverAtSide(facing) != null;
     }
@@ -177,6 +185,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
         }
         return shapes.toArray(VoxelShape[]::new);
     }
+
     static boolean doesCoverCollide(Direction side, List<VoxelShape> collisionBox, double plateThickness) {
         if (side == null) {
             return false;
@@ -195,14 +204,15 @@ public interface ICoverable extends ITickSubscription, IAppearance {
         return false;
     }
     /*
-    @Nullable
-    static Direction rayTraceCoverableSide(ICoverable coverable, Player player) {
-        HitResult rayTrace = ToolHelper.getPlayerDefaultRaytrace(player);
-        if (rayTrace.getType() != HitResult.Type.BLOCK) {
-            return null;
-        }
-        return traceCoverSide((BlockHitResult) rayTrace);
-    }*/
+     * @Nullable
+     * static Direction rayTraceCoverableSide(ICoverable coverable, Player player) {
+     * HitResult rayTrace = ToolHelper.getPlayerDefaultRaytrace(player);
+     * if (rayTrace.getType() != HitResult.Type.BLOCK) {
+     * return null;
+     * }
+     * return traceCoverSide((BlockHitResult) rayTrace);
+     * }
+     */
 
     @Nullable
     static Direction traceCoverSide(BlockHitResult result) {
@@ -216,6 +226,7 @@ public interface ICoverable extends ITickSubscription, IAppearance {
                 (float) (result.getLocation().y - result.getBlockPos().getY()),
                 (float) (result.getLocation().z - result.getBlockPos().getZ()));
     }
+
     static VoxelShape getCoverPlateBox(Direction side, double plateThickness) {
         return switch (side) {
             case UP -> Shapes.box(0.0, 1.0 - plateThickness, 0.0, 1.0, 1.0, 1.0);

@@ -5,10 +5,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.phasetranscrystal.breatechnology.api.definition.MetaBlockDefinition;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MetaAppearanceBlock extends MetaBlock implements IAppearance {
+
     public MetaAppearanceBlock(Properties properties, MetaBlockDefinition<?> definition) {
         super(properties, definition);
     }

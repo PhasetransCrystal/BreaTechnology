@@ -1,11 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.registry;
 
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -14,12 +8,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-//延迟注册器
+// 延迟注册器
 public abstract class BTRegistry<K, V> implements Iterable<V> {
 
     public static final Map<ResourceLocation, BTRegistry<?, ?>> REGISTERED = new HashMap<>();

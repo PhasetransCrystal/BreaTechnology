@@ -1,26 +1,13 @@
 package net.phasetranscrystal.breatechnology.api.definition;
 
-import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
-import com.lowdragmc.lowdraglib.utils.ShapeUtils;
-import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.blockentity.MetaMachineBlockEntity;
 import net.phasetranscrystal.breatechnology.api.gui.egitor.EditableMachineUI;
 import net.phasetranscrystal.breatechnology.api.item.MetaMachineItem;
@@ -30,6 +17,14 @@ import net.phasetranscrystal.breatechnology.api.recipe.BTRecipeType;
 import net.phasetranscrystal.breatechnology.api.recipe.capability.RecipeCapability;
 import net.phasetranscrystal.breatechnology.api.recipe.kind.BTRecipe;
 import net.phasetranscrystal.breatechnology.api.recipe.modifier.RecipeModifier;
+
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib.utils.ShapeUtils;
+import com.tterrag.registrate.AbstractRegistrate;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,14 +139,12 @@ public class MetaMachineDefinition<T extends MetaMachineBlockEntity> extends Met
     @NotNull
     @Getter
     @Setter
-    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {
-    };
+    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {};
     /// 配方进行完成后回调
     @NotNull
     @Getter
     @Setter
-    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {
-    };
+    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {};
     /// 配方等待时是否允许回滚
     @Getter
     @Setter

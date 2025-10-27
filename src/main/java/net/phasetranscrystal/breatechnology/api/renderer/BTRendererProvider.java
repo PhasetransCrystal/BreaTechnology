@@ -1,10 +1,11 @@
 package net.phasetranscrystal.breatechnology.api.renderer;
 
-import com.lowdragmc.lowdraglib.client.renderer.ATESRRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+
+import com.lowdragmc.lowdraglib.client.renderer.ATESRRendererProvider;
 import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)

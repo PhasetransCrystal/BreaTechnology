@@ -18,16 +18,18 @@ import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.utils.FormattingUtil;
 import net.phasetranscrystal.breatechnology.common.CommonInit;
 import net.phasetranscrystal.breatechnology.config.ConfigHolder;
-import org.apache.logging.log4j.util.Strings;
-import org.jetbrains.annotations.ApiStatus;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.file.Path;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(BreaTechnology.MOD_ID)
 public class BreaTechnology {
+
     public static final Logger LOGGER = LogManager.getLogger(BreaTechnology.MOD_ID);
     public static final String MOD_ID = "breatechnology";
     public static final String NAME = "舟尘科技";
@@ -42,36 +44,39 @@ public class BreaTechnology {
 
         // must be set here because of KubeJS compat
         // trying to read this before the pre-init stage
-        //GTCEuAPI.materialManager = GTRegistries.MATERIALS;
-        //GTCEuAPI.initializeHighTier();
+        // GTCEuAPI.materialManager = GTRegistries.MATERIALS;
+        // GTCEuAPI.initializeHighTier();
         if (BreaTechnology.isDev()) {
-            //ConfigHolder.INSTANCE.recipes.generateLowQualityGems = true;
-            //ConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
+            // ConfigHolder.INSTANCE.recipes.generateLowQualityGems = true;
+            // ConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
         }
         CommonInit.init(modEventBus);
 
-        //modEventBus.addListener(AlloyBlastPropertyAddition::addAlloyBlastProperties);
-        //modEventBus.addListener(GTNetwork::registerPayloads);
+        // modEventBus.addListener(AlloyBlastPropertyAddition::addAlloyBlastProperties);
+        // modEventBus.addListener(GTNetwork::registerPayloads);
 
-        //GTValueProviderTypes.init(modEventBus);
+        // GTValueProviderTypes.init(modEventBus);
         BTRegistries.init(modEventBus);
-        //GTFeatures.init(modEventBus);
-        //GTCommandArguments.init(modEventBus);
-        //GTMobEffects.init(modEventBus);
-        //GTParticleTypes.init(modEventBus);
+        // GTFeatures.init(modEventBus);
+        // GTCommandArguments.init(modEventBus);
+        // GTMobEffects.init(modEventBus);
+        // GTParticleTypes.init(modEventBus);
     }
 
     // TODO: ResourceLocation 处理
     private static final ResourceLocation TEMPLATE_LOCATION = ResourceLocation.fromNamespaceAndPath(MOD_ID, "");
+
     public static ResourceLocation id(String path) {
         if (Strings.isBlank(path)) {
             return TEMPLATE_LOCATION;
         }
         return TEMPLATE_LOCATION.withPath(FormattingUtil.toLowerCaseUnder(path));
     }
+
     public static String appendIdString(String id) {
         return id.indexOf(':') == -1 ? (MOD_ID + ":" + id) : id;
     }
+
     public static ResourceLocation appendId(String id) {
         String[] strings = new String[] { "gtceu", id };
         int i = id.indexOf(':');
@@ -121,6 +126,7 @@ public class BreaTechnology {
     public static boolean isModLoaded(String modId) {
         return ModList.get().isLoaded(modId);
     }
+
     /**
      * For async stuff use this, otherwise use {@link BreaTechnology isClientSide}
      *
@@ -158,6 +164,7 @@ public class BreaTechnology {
     public static Path getGameDir() {
         return FMLPaths.GAMEDIR.get();
     }
+
     public static class Mods {
 
         public static boolean isJEILoaded() {
@@ -165,7 +172,9 @@ public class BreaTechnology {
                     isModLoaded(BTValues.MODID_JEI);
         }
 
-        public static boolean isKubeJSLoaded() {return isModLoaded(BTValues.MODID_KUBEJS);}
+        public static boolean isKubeJSLoaded() {
+            return isModLoaded(BTValues.MODID_KUBEJS);
+        }
 
         public static boolean isAE2Loaded() {
             return isModLoaded(BTValues.MODID_APPENG);

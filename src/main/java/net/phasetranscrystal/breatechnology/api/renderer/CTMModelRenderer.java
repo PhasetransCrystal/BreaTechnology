@@ -1,9 +1,10 @@
 package net.phasetranscrystal.breatechnology.api.renderer;
 
-import com.lowdragmc.lowdraglib.client.renderer.impl.IModelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+
+import com.lowdragmc.lowdraglib.client.renderer.impl.IModelRenderer;
 
 public class CTMModelRenderer extends IModelRenderer {
 

@@ -1,20 +1,21 @@
 package net.phasetranscrystal.breatechnology.api.gui.factory;
 
-import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.machine.IMachineBlockEntity;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import net.phasetranscrystal.breatechnology.api.machine.feature.IUIMachine;
 
+import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+
 public class MachineUIFactory extends UIFactory<MetaMachine> {
+
     public static final MachineUIFactory INSTANCE = new MachineUIFactory();
 
     public MachineUIFactory() {

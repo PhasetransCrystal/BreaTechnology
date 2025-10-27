@@ -1,6 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.tag;
 
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -52,6 +51,7 @@ public class TagUtil {
     public static TagKey<Block> createBlockTag(String path, boolean vanilla) {
         return createTag(Registries.BLOCK, path, vanilla);
     }
+
     /**
      * Creates a block tag under the {@code gtceu} namespace
      *

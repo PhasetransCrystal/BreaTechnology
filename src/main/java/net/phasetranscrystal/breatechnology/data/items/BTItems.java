@@ -1,14 +1,16 @@
 package net.phasetranscrystal.breatechnology.data.items;
 
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import lombok.Getter;
 import net.minecraft.world.item.Item;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
+
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import lombok.Getter;
 
 import static net.phasetranscrystal.breatechnology.common.registry.BTRegistration.REGISTRATE;
 
 @Getter
 public class BTItems {
+
     static {
         REGISTRATE.creativeModeTab(() -> BTCreativeModeTabs.TEST_TAB);
     }
@@ -17,6 +19,5 @@ public class BTItems {
             .lang("Test Item")
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }

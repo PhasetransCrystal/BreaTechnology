@@ -1,10 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.block;
 
-import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import icyllis.modernui.mc.TooltipRenderer;
-import lombok.Getter;
-import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -15,7 +10,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -45,11 +38,14 @@ import net.phasetranscrystal.breatechnology.api.machine.*;
 import net.phasetranscrystal.breatechnology.api.machine.feature.*;
 import net.phasetranscrystal.breatechnology.api.utils.BTUtil;
 import net.phasetranscrystal.breatechnology.common.machine.owner.MachineOwner;
+
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 
 /// 机器方块的基础类
 public class MetaMachineBlock extends MetaAppearanceBlock implements IMachineBlock {
@@ -148,7 +144,7 @@ public class MetaMachineBlock extends MetaAppearanceBlock implements IMachineBlo
         level.updateNeighbourForOutputSignal(pos, this);
     }
 
-    ///  设置BlockState在放置方块时
+    /// 设置BlockState在放置方块时
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         var rotationState = getRotationState();

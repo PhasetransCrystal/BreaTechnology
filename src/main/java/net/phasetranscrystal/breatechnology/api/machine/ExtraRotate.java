@@ -2,15 +2,18 @@ package net.phasetranscrystal.breatechnology.api.machine;
 
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
 public enum ExtraRotate implements Predicate<ExtraRotate>, StringRepresentable {
+
     NONE(0, "none"),
     OPPOSITE(180, "opposite"),
     ANTW(270, "anticlockwise"),
     CLOW(90, "clockwise");
+
     private final int angle;
     private final String name;
 

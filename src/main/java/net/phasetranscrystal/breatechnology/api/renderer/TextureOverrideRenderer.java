@@ -1,7 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.renderer;
 
-import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import lombok.Getter;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
@@ -14,6 +12,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.renderer.model.SpriteOverrider;
+
+import com.lowdragmc.lowdraglib.client.model.ModelFactory;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,8 +41,6 @@ public class TextureOverrideRenderer extends CTMModelRenderer {
             registerEvent();
         }
     }
-
-    
 
     public TextureOverrideRenderer(ResourceLocation model,
                                    @NotNull Supplier<Map<String, ResourceLocation>> overrideSupplier) {

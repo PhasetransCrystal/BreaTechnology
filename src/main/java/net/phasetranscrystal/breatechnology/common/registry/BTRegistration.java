@@ -6,12 +6,12 @@ import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.registry.registate.BTRegistrate;
 
 public class BTRegistration {
+
     public static final BTRegistrate REGISTRATE = BTRegistrate.create(BreaTechnology.MOD_ID);
 
     static {
         BTRegistration.REGISTRATE.defaultCreativeTab((ResourceKey<CreativeModeTab>) null);
     }
 
-    private BTRegistration() {
-    }
+    private BTRegistration() {}
 }

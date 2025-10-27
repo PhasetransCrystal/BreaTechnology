@@ -1,6 +1,5 @@
 package net.phasetranscrystal.breatechnology.data.tags;
 
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;

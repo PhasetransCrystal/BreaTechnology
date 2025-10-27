@@ -1,10 +1,6 @@
 package net.phasetranscrystal.breatechnology.api.material.tag;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.nbt.TagType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -13,6 +9,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
 import net.phasetranscrystal.breatechnology.api.utils.FormattingUtil;
 import net.phasetranscrystal.breatechnology.api.utils.MemoizedSupplier;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -23,6 +23,7 @@ import java.util.function.UnaryOperator;
 @SuppressWarnings("unused")
 @Accessors(chain = true, fluent = true)
 public class MaterialTagInfo {
+
     protected static final Map<String, MaterialTagInfo> TagInfoMap = new HashMap<>();
 
     public static MaterialTagInfo get(String name) {
@@ -72,16 +73,17 @@ public class MaterialTagInfo {
     private boolean generateItem;
     @Setter
     private UnaryOperator<Item.Properties> itemProperties = UnaryOperator.identity();
-    public Item.Properties generateItemProperties(Item.Properties properties){
+
+    public Item.Properties generateItemProperties(Item.Properties properties) {
         return itemProperties.apply(properties);
     }
+
     @Setter
     @Getter
     private boolean generateBlock;
 
     public record BlockProperties(Supplier<Supplier<RenderType>> renderType,
-                                  UnaryOperator<BlockBehaviour.Properties> properties) {
-    }
+                                  UnaryOperator<BlockBehaviour.Properties> properties) {}
 
     @Getter
     @Setter
@@ -92,10 +94,10 @@ public class MaterialTagInfo {
     @Setter
     @Getter
     private boolean generateMeltFluid;
-    public boolean generateFluid(){
+
+    public boolean generateFluid() {
         return generateLiquidFluid || generateMeltFluid;
     }
-
 
     /// 注册时忽略的物品
     private final Map<MetaMaterial<?>, Supplier<? extends ItemLike>[]> ignoredMaterials = new HashMap<>();

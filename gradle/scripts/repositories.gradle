@@ -1,0 +1,27 @@
+repositories {
+    mavenLocal()
+    maven {
+        url = "https://cursemaven.com" // CurseForge模组仓库
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        url 'https://www.jitpack.io' // GitHub模组仓库
+        content {
+            includeGroup "com.github.TechnoChronicle"
+        }
+    }
+    exclusiveContent { // Configuration
+        forRepository { maven { url = "https://api.repsy.io/mvn/toma/public/" } }
+        filter { includeGroup('dev.toma.configuration') }
+    }
+    exclusiveContent { // FTB mods
+        forRepository { maven { url = "https://maven.ftb.dev/releases/" } }
+        filter { includeGroup("dev.ftb.mods") }
+    }
+    exclusiveContent { // tterrag - registrate
+        forRepository { maven { url = "https://mvn.devos.one/snapshots/" } }
+        filter { includeGroup("com.tterrag.registrate") }
+    }
+}

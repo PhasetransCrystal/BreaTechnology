@@ -1,9 +1,11 @@
 package net.phasetranscrystal.breatechnology.data.misc;
 
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 
+import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
+
 public class GuiTextures {
+
     public static ResourceTexture SCENE;
     public static ResourceTexture VANILLA_BUTTON;
     public static ResourceTexture SLOT;
@@ -14,8 +16,7 @@ public class GuiTextures {
 
     public static ResourceTexture BACKGROUND = registerTexture("background", "breatechnology:textures/gui/base/background.png");
 
-    public static void init() {
-    }
+    public static void init() {}
 
     private static ResourceTexture getTexture(String location) {
         return new ResourceTexture(location);

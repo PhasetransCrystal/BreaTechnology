@@ -1,9 +1,10 @@
 package net.phasetranscrystal.breatechnology.api.cover;
 
-import lombok.Getter;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.phasetranscrystal.breatechnology.api.capability.ICoverable;
+
+import lombok.Getter;
 
 public final class CoverDefinition {
 

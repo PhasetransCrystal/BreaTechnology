@@ -1,11 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.cover;
 
-import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,6 +12,13 @@ import net.phasetranscrystal.breatechnology.api.gui.fancy.IFancyConfigurator;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import net.phasetranscrystal.breatechnology.api.machine.feature.multiblock.IMultiController;
 import net.phasetranscrystal.breatechnology.api.transfer.fluid.IFluidHandlerModifiable;
+
+import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +29,8 @@ import java.util.List;
  * Represents cover instance attached on the specific side of meta tile entity
  * Cover filters out interaction and logic of meta tile entity
  */
-public abstract class CoverBehavior implements IEnhancedManaged{
+public abstract class CoverBehavior implements IEnhancedManaged {
+
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(CoverBehavior.class);
 
     @Getter
@@ -49,6 +51,7 @@ public abstract class CoverBehavior implements IEnhancedManaged{
         this.coverHolder = coverHolder;
         this.attachedSide = attachedSide;
     }
+
     //////////////////////////////////////
     // ***** Initialization ******//
     //////////////////////////////////////
@@ -69,6 +72,7 @@ public abstract class CoverBehavior implements IEnhancedManaged{
             level.getServer().execute(coverHolder::markDirty);
         }
     }
+
     /**
      * Called on server side to check whether cover can be attached to given cover holder.
      * it will be called before {@link CoverBehavior#onAttached(ItemStack, ServerPlayer)}
@@ -96,6 +100,7 @@ public abstract class CoverBehavior implements IEnhancedManaged{
     public void onLoad() {}
 
     public void onUnload() {}
+
     //////////////////////////////////////
     // ********** Misc ***********//
     //////////////////////////////////////
@@ -124,6 +129,7 @@ public abstract class CoverBehavior implements IEnhancedManaged{
         coverHolder.notifyBlockUpdate();
         coverHolder.markDirty();
     }
+
     public boolean canConnectRedstone() {
         return false;
     }

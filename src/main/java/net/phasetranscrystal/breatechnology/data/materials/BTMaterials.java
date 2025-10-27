@@ -1,7 +1,5 @@
 package net.phasetranscrystal.breatechnology.data.materials;
 
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import net.phasetranscrystal.breatechnology.api.material.instance.MaterialBlockItem;
 import net.phasetranscrystal.breatechnology.api.material.instance.MetaMaterialBlock;
 import net.phasetranscrystal.breatechnology.api.material.instance.MetaMaterialItem;
 import net.phasetranscrystal.breatechnology.api.material.tag.MaterialTagInfo;
@@ -9,9 +7,12 @@ import net.phasetranscrystal.breatechnology.api.material.type.ElementMaterial;
 import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
 
+import com.tterrag.registrate.util.entry.RegistryEntry;
+
 import static net.phasetranscrystal.breatechnology.common.registry.BTRegistration.REGISTRATE;
 
 public class BTMaterials {
+
     // 材料物品类型
     public static MaterialTagInfo Ingot = new MaterialTagInfo("ingot").materialAmount(144).generateItem(true);
     public static MaterialTagInfo Dust = new MaterialTagInfo("dust").materialAmount(144).generateItem(true);
@@ -31,6 +32,5 @@ public class BTMaterials {
             .color(0xffffff00).secondaryColor(0xffffff00)
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }

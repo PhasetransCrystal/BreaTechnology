@@ -1,9 +1,11 @@
 package net.phasetranscrystal.breatechnology.api.utils;
 
 import net.minecraft.core.Direction;
+
 import org.jetbrains.annotations.Nullable;
 
 public class BTUtil {
+
     public static final Direction[] DIRECTIONS = Direction.values();
 
     @Nullable

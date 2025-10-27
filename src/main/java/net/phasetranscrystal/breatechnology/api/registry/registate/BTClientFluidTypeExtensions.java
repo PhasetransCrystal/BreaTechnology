@@ -1,18 +1,17 @@
 package net.phasetranscrystal.breatechnology.api.registry.registate;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
 public class BTClientFluidTypeExtensions implements IClientFluidTypeExtensions {
+
     public static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation.withDefaultNamespace("textures/misc/underwater.png");
     public static final ResourceLocation LIQUID_STILL = ResourceLocation.withDefaultNamespace("block/water_still");
     public static final ResourceLocation LIQUID_FLOWING = ResourceLocation.withDefaultNamespace("block/water_flow");
@@ -35,6 +34,7 @@ public class BTClientFluidTypeExtensions implements IClientFluidTypeExtensions {
     private int tintColor = 0xffffffff;
 
     public static class Liquid extends BTClientFluidTypeExtensions {
+
         public Liquid(int tintColor) {
             super(LIQUID_STILL, LIQUID_FLOWING, tintColor);
         }
@@ -53,6 +53,7 @@ public class BTClientFluidTypeExtensions implements IClientFluidTypeExtensions {
     }
 
     public static class Melt extends BTClientFluidTypeExtensions {
+
         public Melt(int tintColor) {
             super(MELT_STILL, MELT_FLOWING, tintColor);
         }

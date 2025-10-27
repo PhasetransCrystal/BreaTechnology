@@ -16,6 +16,7 @@ public class TickableSubscription {
 
     /**
      * 构造函数
+     * 
      * @param runnable 订阅时需要执行的回调函数
      */
     public TickableSubscription(Runnable runnable) {

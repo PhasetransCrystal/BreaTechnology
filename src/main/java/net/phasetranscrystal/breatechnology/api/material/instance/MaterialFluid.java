@@ -1,6 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.material.instance;
 
-import lombok.Getter;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluid;
@@ -9,11 +8,16 @@ import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.phasetranscrystal.breatechnology.api.material.tag.MaterialTagInfo;
 import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
 
+import lombok.Getter;
+
 public abstract class MaterialFluid extends BaseFlowingFluid implements IMaterialInstance {
+
     @FunctionalInterface
-    public interface MaterialFluidFactory{
+    public interface MaterialFluidFactory {
+
         MaterialFluid create(MetaMaterial<?> definition, MaterialTagInfo instanceType, Properties properties);
     }
+
     @Getter
     private final MetaMaterial<?> definition;
     @Getter
@@ -23,7 +27,6 @@ public abstract class MaterialFluid extends BaseFlowingFluid implements IMateria
         super(properties);
         this.definition = definition;
         this.instanceType = instanceType;
-
     }
 
     public static class Source extends MaterialFluid {
@@ -50,7 +53,7 @@ public abstract class MaterialFluid extends BaseFlowingFluid implements IMateria
 
         protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
             super.createFluidStateDefinition(builder);
-            builder.add(new Property[]{LEVEL});
+            builder.add(new Property[] { LEVEL });
         }
 
         public int getAmount(FluidState state) {

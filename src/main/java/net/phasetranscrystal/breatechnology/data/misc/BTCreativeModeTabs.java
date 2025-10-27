@@ -1,40 +1,39 @@
 package net.phasetranscrystal.breatechnology.data.misc;
 
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.registry.registate.BTRegistrate;
+
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import org.jetbrains.annotations.NotNull;
 
 import static net.phasetranscrystal.breatechnology.common.registry.BTRegistration.REGISTRATE;
 
 public class BTCreativeModeTabs {
+
     public static RegistryEntry<CreativeModeTab, CreativeModeTab> TEST_TAB = REGISTRATE.defaultCreativeTab("test_tab",
-                    builder -> builder.displayItems(new RegistrateDisplayItemsGenerator("test_tab", REGISTRATE))
-                            .icon(Items.AIR::getDefaultInstance)
-                            .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("test_tab"), BreaTechnology.NAME + "TestTab"))
-                            .build())
+            builder -> builder.displayItems(new RegistrateDisplayItemsGenerator("test_tab", REGISTRATE))
+                    .icon(Items.AIR::getDefaultInstance)
+                    .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("test_tab"), BreaTechnology.NAME + "TestTab"))
+                    .build())
             .register();
-    public static RegistryEntry<CreativeModeTab,CreativeModeTab>MACHINE_TAB=REGISTRATE.defaultCreativeTab("machine_tab",
+    public static RegistryEntry<CreativeModeTab, CreativeModeTab> MACHINE_TAB = REGISTRATE.defaultCreativeTab("machine_tab",
             builder -> builder.displayItems(new RegistrateDisplayItemsGenerator("machine_tab", REGISTRATE))
                     .icon(Items.AIR::getDefaultInstance)
                     .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("machine_tab"), BreaTechnology.NAME + "Machine Tab"))
                     .build())
             .register();
-    public static RegistryEntry<CreativeModeTab,CreativeModeTab>MATERIAL_TAB=REGISTRATE.defaultCreativeTab("material_tab",
+    public static RegistryEntry<CreativeModeTab, CreativeModeTab> MATERIAL_TAB = REGISTRATE.defaultCreativeTab("material_tab",
             builder -> builder.displayItems(new RegistrateDisplayItemsGenerator("material_tab", REGISTRATE))
                     .icon(Items.IRON_INGOT::getDefaultInstance)
                     .title(REGISTRATE.addLang("itemGroup", BreaTechnology.id("material_tab"), BreaTechnology.NAME + "Material Tab"))
                     .build())
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 
     public static class RegistrateDisplayItemsGenerator implements CreativeModeTab.DisplayItemsGenerator {
 
@@ -63,21 +62,22 @@ public class BTCreativeModeTabs {
                 Item item = entry.get();
                 switch (item) {
                     /*
-                    case IComponentItem componentItem -> {
-                        NonNullList<ItemStack> list = NonNullList.create();
-                        componentItem.fillItemCategory(tab.get(), list);
-                        list.forEach(output::accept);
-                    }
-                    case IGTTool tool -> {
-                        NonNullList<ItemStack> list = NonNullList.create();
-                        tool.definition$fillItemCategory(tab.get(), list);
-                        list.forEach(output::accept);
-                    }
-                    case LampBlockItem lamp -> {
-                        NonNullList<ItemStack> list = NonNullList.create();
-                        lamp.fillItemCategory(tab.get(), list);
-                        list.forEach(output::accept);
-                    }*/
+                     * case IComponentItem componentItem -> {
+                     * NonNullList<ItemStack> list = NonNullList.create();
+                     * componentItem.fillItemCategory(tab.get(), list);
+                     * list.forEach(output::accept);
+                     * }
+                     * case IGTTool tool -> {
+                     * NonNullList<ItemStack> list = NonNullList.create();
+                     * tool.definition$fillItemCategory(tab.get(), list);
+                     * list.forEach(output::accept);
+                     * }
+                     * case LampBlockItem lamp -> {
+                     * NonNullList<ItemStack> list = NonNullList.create();
+                     * lamp.fillItemCategory(tab.get(), list);
+                     * list.forEach(output::accept);
+                     * }
+                     */
                     default -> output.accept(item);
                 }
             }

@@ -1,31 +1,17 @@
 package net.phasetranscrystal.breatechnology.api.machine.feature.multiblock;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.phasetranscrystal.breatechnology.api.machine.feature.IInteractedMachine;
 import net.phasetranscrystal.breatechnology.api.machine.feature.IMachineFeature;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.locks.Lock;
 
 public interface IMultiController extends IMachineFeature, IInteractedMachine {
+
     String tmp = """
-            
+
             @Override
             default MultiblockControllerMachine self() {
                 return (MultiblockControllerMachine) this;
             }
-            
+
             /**
              * Check MultiBlock Pattern. Just checking pattern without any other logic.
              * You can override it but it's unsafe for calling. because it will also be called in an async thread.
@@ -68,7 +54,7 @@ public interface IMultiController extends IMachineFeature, IInteractedMachine {
                     return false;
                 }
             }
-            
+
             /**
              * Get structure pattern.
              * You can override it to create dynamic patterns.
@@ -83,13 +69,13 @@ public interface IMultiController extends IMachineFeature, IInteractedMachine {
              * Its parts maybe invalid due to chunk unload.
              */
             boolean isFormed();
-            
+
             /**
              * Get MultiblockState. It records all structure-related information.
              */
             @NotNull
             MultiblockState getMultiblockState();
-            
+
             /**
              * Called in an async thread. It's unsafe, Don't modify anything of world but checking information.
              * It will be called per 5 tick.
@@ -107,7 +93,7 @@ public interface IMultiController extends IMachineFeature, IInteractedMachine {
              * 2 - Literally, structure formed.
              */
             void onStructureFormed();
-            
+
             /**
              * Called when structure is invalid. (server-side / fake scene only)
              * <br/>
@@ -123,12 +109,12 @@ public interface IMultiController extends IMachineFeature, IInteractedMachine {
              * false means structure of all sides are available.
              */
             boolean hasFrontFacing();
-            
+
             /**
              * Get all parts
              */
             List<IMultiPart> getParts();
-            
+
             /**
              * The instance of {@link IParallelHatch} attached to this Controller.
              * <p>
@@ -141,19 +127,19 @@ public interface IMultiController extends IMachineFeature, IInteractedMachine {
              * Called from part, when part is invalid due to chunk unload or broken.
              */
             void onPartUnload();
-            
+
             /**
              * Get lock for pattern checking.
              */
             Lock getPatternLock();
-            
+
             /**
              * should add part to the part list.
              */
             default boolean shouldAddPartToController(IMultiPart part) {
                 return true;
             }
-            
+
             /**
              * get parts' Appearance. same as IBlockExtension.getAppearance() / IFabricBlock.getAppearance()
              */
@@ -180,7 +166,7 @@ public interface IMultiController extends IMachineFeature, IInteractedMachine {
                 }
                 return IInteractedMachine.super.onUse(state, level, pos, player, hand, hit);
             }
-            
+
             default boolean allowCircuitSlots() {
                 return true;
             }

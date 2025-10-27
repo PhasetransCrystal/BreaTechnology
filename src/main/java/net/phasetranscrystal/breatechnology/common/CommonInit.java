@@ -18,6 +18,7 @@ import net.phasetranscrystal.breatechnology.data.materials.BTMaterials;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
 
 public class CommonInit {
+
     public static void init(IEventBus modEventBus) {
         modEventBus.register(CommonInit.class);
 
@@ -33,35 +34,26 @@ public class CommonInit {
         BTMaterials.init();
     }
 
-    private static void initMaterials() {
-
-    }
+    private static void initMaterials() {}
 
     @SubscribeEvent
-    public static void commonSetup(FMLCommonSetupEvent event) {
-    }
+    public static void commonSetup(FMLCommonSetupEvent event) {}
 
     @SubscribeEvent
-    public static void loadComplete(FMLLoadCompleteEvent event) {
-    }
+    public static void loadComplete(FMLLoadCompleteEvent event) {}
 
     @SubscribeEvent
-    public static void interModProcess(InterModProcessEvent event) {
-    }
+    public static void interModProcess(InterModProcessEvent event) {}
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-    }
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {}
 
     @SubscribeEvent
-    public static void registerDataPackRegistries(DataPackRegistryEvent.NewRegistry event) {
-    }
+    public static void registerDataPackRegistries(DataPackRegistryEvent.NewRegistry event) {}
 
     @SubscribeEvent
-    public static void registerPackFinders(AddPackFindersEvent event) {
-    }
+    public static void registerPackFinders(AddPackFindersEvent event) {}
 
     @SubscribeEvent
-    public static void addValidBlocksToBETypes(BlockEntityTypeAddBlocksEvent event) {
-    }
+    public static void addValidBlocksToBETypes(BlockEntityTypeAddBlocksEvent event) {}
 }

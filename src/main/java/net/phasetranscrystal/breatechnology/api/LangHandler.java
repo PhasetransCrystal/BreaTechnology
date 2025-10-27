@@ -1,10 +1,11 @@
 package net.phasetranscrystal.breatechnology.api;
 
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import com.tterrag.registrate.providers.RegistrateLangProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+
+import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.tterrag.registrate.providers.RegistrateLangProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -16,9 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LangHandler {
-    public static void init(RegistrateLangProvider provider){
 
-    }
+    public static void init(RegistrateLangProvider provider) {}
 
     /**
      * Returns the sub-key consisting of the given key plus the given index.<br/>

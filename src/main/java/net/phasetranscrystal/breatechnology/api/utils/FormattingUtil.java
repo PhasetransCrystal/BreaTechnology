@@ -1,9 +1,10 @@
 package net.phasetranscrystal.breatechnology.api.utils;
 
-import com.google.common.base.CaseFormat;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.PlainTextContents;
+
+import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

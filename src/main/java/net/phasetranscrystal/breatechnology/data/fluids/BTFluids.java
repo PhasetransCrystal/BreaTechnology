@@ -1,13 +1,15 @@
 package net.phasetranscrystal.breatechnology.data.fluids;
 
-import com.tterrag.registrate.util.entry.FluidEntry;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.phasetranscrystal.breatechnology.api.registry.registate.BTClientFluidTypeExtensions;
 import net.phasetranscrystal.breatechnology.data.misc.BTCreativeModeTabs;
 
+import com.tterrag.registrate.util.entry.FluidEntry;
+
 import static net.phasetranscrystal.breatechnology.common.registry.BTRegistration.REGISTRATE;
 
 public class BTFluids {
+
     static {
         REGISTRATE.creativeModeTab(() -> BTCreativeModeTabs.TEST_TAB);
     }
@@ -19,6 +21,5 @@ public class BTFluids {
             .lang("test_fluid2")
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }

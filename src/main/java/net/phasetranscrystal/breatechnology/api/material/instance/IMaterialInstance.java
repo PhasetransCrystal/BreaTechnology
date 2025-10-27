@@ -4,7 +4,8 @@ import net.phasetranscrystal.breatechnology.api.material.tag.MaterialTagInfo;
 import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
 
 public interface IMaterialInstance {
-    default IMaterialInstance self(){
+
+    default IMaterialInstance self() {
         return this;
     }
 

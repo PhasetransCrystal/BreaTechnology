@@ -1,7 +1,6 @@
 package net.phasetranscrystal.breatechnology.api.machine.feature;
 
 import net.minecraft.nbt.CompoundTag;
-import org.jetbrains.annotations.ApiStatus;
 
 /// 破坏保留数据的机器接口
 public interface IDropSaveMachine extends IMachineFeature {
@@ -25,8 +24,11 @@ public interface IDropSaveMachine extends IMachineFeature {
      *
      * @param tag The tag to save to.
      */
-   /* @ApiStatus.ScheduledForRemoval(inVersion = "1.9.0")
-    @Deprecated(forRemoval = true)*/
+    /*
+     * @ApiStatus.ScheduledForRemoval(inVersion = "1.9.0")
+     * 
+     * @Deprecated(forRemoval = true)
+     */
     default void saveToItem(CompoundTag tag) {
         self().holder.saveManagedPersistentData(tag, true);
     }

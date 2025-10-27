@@ -1,14 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.machine;
 
-import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.utils.DummyWorld;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
@@ -21,7 +12,6 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -40,6 +30,16 @@ import net.phasetranscrystal.breatechnology.api.machine.feature.IRedstoneSignalM
 import net.phasetranscrystal.breatechnology.api.machine.trait.MachineTrait;
 import net.phasetranscrystal.breatechnology.common.machine.owner.MachineOwner;
 import net.phasetranscrystal.breatechnology.common.machine.owner.PlayerOwner;
+
+import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib.utils.DummyWorld;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,8 +48,12 @@ import java.util.List;
 import java.util.UUID;
 
 /// 机器基本方法
-public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppearance , IPaintable, IRedstoneSignalMachine {//,IToolable, IToolGridHighLight, IFancyTooltip, {
+public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppearance, IPaintable, IRedstoneSignalMachine {// ,IToolable,
+                                                                                                                          // IToolGridHighLight,
+                                                                                                                          // IFancyTooltip,
+                                                                                                                          // {
     /// 机器数据管理器
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MetaMachine.class);
     /// 机器异步存储
     @Getter
@@ -153,10 +157,12 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
     public long getOffsetTimer() {
         return holder.getOffsetTimer();
     }
+
     /// 标识方块数据被修改
     public void markDirty() {
         holder.getSelf().setChanged();
     }
+
     /// 方块实体是否被删除
     public boolean isInValid() {
         return holder.getSelf().isRemoved();
@@ -197,12 +203,10 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
     }
 
     /// {@link BlockEntity#applyImplicitComponents(BlockEntity.DataComponentInput)}
-    public void applyImplicitComponents(MetaMachineBlockEntity.ExDataComponentInput componentInput) {
-    }
+    public void applyImplicitComponents(MetaMachineBlockEntity.ExDataComponentInput componentInput) {}
 
     /// {@link BlockEntity#collectImplicitComponents(DataComponentMap.Builder)}
-    public void collectImplicitComponents(DataComponentMap.Builder components) {
-    }
+    public void collectImplicitComponents(DataComponentMap.Builder components) {}
 
     //////////////////////////////////////
     // ***** Tickable Manager ****//
@@ -291,13 +295,13 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
 
     /// ///////////////////////////////////
 
-        @Nullable
-        public static MetaMachine getMachine(BlockGetter level, BlockPos pos) {
-            if (level.getBlockEntity(pos) instanceof IMachineBlockEntity machineBlockEntity) {
-                return machineBlockEntity.getMetaMachine();
-            }
-            return null;
+    @Nullable
+    public static MetaMachine getMachine(BlockGetter level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof IMachineBlockEntity machineBlockEntity) {
+            return machineBlockEntity.getMetaMachine();
         }
+        return null;
+    }
 
     /**
      * All traits should be initialized while MetaMachine is creating. you cannot add them on the fly.
@@ -397,9 +401,9 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
             }
         }
     }
+
     /// 方块旋转事件钩子
-    public void onRotated(Direction oldFacing, Direction newFacing) {
-    }
+    public void onRotated(Direction oldFacing, Direction newFacing) {}
 
     public boolean enableExtraRotation() {
         return getDefinition().isEnableExtraRotation();
@@ -413,14 +417,14 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         }
         return -1;
     }
+
     /// 周围方块更新事件钩子
     public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
         coverContainer.onNeighborChanged(block, fromPos, isMoving);
     }
 
     /// 处理Tick逻辑
-    public void animateTick(RandomSource random) {
-    }
+    public void animateTick(RandomSource random) {}
 
     /// 获取机器外观逻辑
     @Override
@@ -430,11 +434,11 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
         var appearance = getCoverContainer().getBlockAppearance(state, level, pos, side, sourceState, sourcePos);
         if (appearance != null) return appearance;
         /*
-        if (this instanceof IMultiPart part && part.isFormed()) {
-            appearance = part.getFormedAppearance(sourceState, sourcePos, side);
-            if (appearance != null) return appearance;
-        }
-        */
+         * if (this instanceof IMultiPart part && part.isFormed()) {
+         * appearance = part.getFormedAppearance(sourceState, sourcePos, side);
+         * if (appearance != null) return appearance;
+         * }
+         */
         return (BlockState) getDefinition().getAppearance().get();
     }
 
@@ -479,5 +483,4 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
     public int getDefaultPaintingColor() {
         return getDefinition().getDefaultPaintingColor();
     }
-
 }

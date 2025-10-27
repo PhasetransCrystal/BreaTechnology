@@ -1,8 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.cover;
 
-import com.lowdragmc.lowdraglib.client.bakedpipeline.FaceQuad;
-import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.ModelState;
@@ -15,28 +12,32 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
-
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.capability.BTCapabilityHelper;
 import net.phasetranscrystal.breatechnology.api.capability.ICoverable;
 import net.phasetranscrystal.breatechnology.api.utils.BTUtil;
 
+import com.lowdragmc.lowdraglib.client.bakedpipeline.FaceQuad;
+import com.lowdragmc.lowdraglib.client.model.ModelFactory;
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNullableByDefault;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNullableByDefault;
+
 @ParametersAreNullableByDefault
 public interface ICoverableRenderer extends IRenderer {
+
     @Override
     @OnlyIn(Dist.CLIENT)
     default List<BakedQuad> renderModel(BlockAndTintGetter level, BlockPos pos, BlockState state, Direction side,
                                         @NotNull RandomSource rand, @NotNull ModelData data, RenderType renderType) {
         var blockEntity = level == null ? null : level.getBlockEntity(pos);
         if (blockEntity != null) {
-            //noinspection DataFlowIssue
+            // noinspection DataFlowIssue
             var coverable = BTCapabilityHelper.getCoverable(blockEntity.getLevel(), blockEntity.getBlockPos(), null);
             if (coverable != null) {
                 var quads = new LinkedList<BakedQuad>();
@@ -48,6 +49,7 @@ public interface ICoverableRenderer extends IRenderer {
         }
         return IRenderer.super.renderModel(level, pos, state, side, rand, data, renderType);
     }
+
     @OnlyIn(Dist.CLIENT)
     default void renderCovers(List<BakedQuad> quads, @Nullable Direction side, RandomSource rand,
                               @NotNull ICoverable coverable, @Nullable Direction modelFacing, BlockPos pos,

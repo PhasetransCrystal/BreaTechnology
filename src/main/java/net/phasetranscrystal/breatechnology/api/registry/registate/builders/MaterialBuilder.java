@@ -1,7 +1,14 @@
 package net.phasetranscrystal.breatechnology.api.registry.registate.builders;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.phasetranscrystal.breatechnology.api.material.instance.*;
+import net.phasetranscrystal.breatechnology.api.material.tag.MaterialTagInfo;
+import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
+import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
+import net.phasetranscrystal.breatechnology.api.registry.registate.BTClientFluidTypeExtensions;
+
 import com.ibm.icu.impl.Pair;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.AbstractBuilder;
@@ -11,17 +18,6 @@ import com.tterrag.registrate.util.nullness.NonnullType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.phasetranscrystal.breatechnology.api.material.instance.*;
-import net.phasetranscrystal.breatechnology.api.material.tag.MaterialTagInfo;
-import net.phasetranscrystal.breatechnology.api.material.type.MetaMaterial;
-import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
-import net.phasetranscrystal.breatechnology.api.registry.registate.BTClientFluidTypeExtensions;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,14 +25,13 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 @Accessors(chain = true, fluent = true)
-public class MaterialBuilder<MATERIAL extends MetaMaterial<?>,P> extends AbstractBuilder<MetaMaterial<?>,MATERIAL,P,MaterialBuilder<MATERIAL,P>> {
-    public static <MATERIAL extends MetaMaterial<?>, P>
-    MaterialBuilder<MATERIAL, P> create(AbstractRegistrate<?> owner, P parent, String name,
-                                        BuilderCallback callback,
-                                        BiFunction<AbstractRegistrate<?>, ResourceLocation, MATERIAL> materialFactory) {
+public class MaterialBuilder<MATERIAL extends MetaMaterial<?>, P> extends AbstractBuilder<MetaMaterial<?>, MATERIAL, P, MaterialBuilder<MATERIAL, P>> {
+
+    public static <MATERIAL extends MetaMaterial<?>, P> MaterialBuilder<MATERIAL, P> create(AbstractRegistrate<?> owner, P parent, String name,
+                                                                                            BuilderCallback callback,
+                                                                                            BiFunction<AbstractRegistrate<?>, ResourceLocation, MATERIAL> materialFactory) {
         return new MaterialBuilder<>(owner, parent, name, callback, materialFactory);
     }
-
 
     public MaterialBuilder(AbstractRegistrate<?> owner, P parent, String name,
                            BuilderCallback callback,
@@ -62,7 +57,7 @@ public class MaterialBuilder<MATERIAL extends MetaMaterial<?>,P> extends Abstrac
             }
             if (!type.generateItem() | type.generateBlock()) {
                 return;
-                //throw new IllegalArgumentException("Instance type " + type + " cannot generate both item and block");
+                // throw new IllegalArgumentException("Instance type " + type + " cannot generate both item and block");
             }
             types.add(type);
             instanceItems.put(type, factory);
@@ -87,7 +82,7 @@ public class MaterialBuilder<MATERIAL extends MetaMaterial<?>,P> extends Abstrac
             }
             if (!type.generateBlock()) {
                 return;
-                //throw new IllegalArgumentException("Instance type " + type + " cannot generate block");
+                // throw new IllegalArgumentException("Instance type " + type + " cannot generate block");
             }
             types.add(type);
             instanceBlocks.put(type, Pair.of(blockFactory, blockItemFactory));
@@ -96,8 +91,7 @@ public class MaterialBuilder<MATERIAL extends MetaMaterial<?>,P> extends Abstrac
     }
 
     private record MaterialFluidFactoryEntry(MaterialFluid.MaterialFluidFactory flowing,
-                                             MaterialBucketItem.MaterialBucketFactory bucket) {
-    }
+                                             MaterialBucketItem.MaterialBucketFactory bucket) {}
 
     private final Map<MaterialTagInfo, MaterialFluidFactoryEntry> instanceFluids = new HashMap<>();
 
@@ -121,7 +115,7 @@ public class MaterialBuilder<MATERIAL extends MetaMaterial<?>,P> extends Abstrac
             }
             if (!type.generateFluid()) {
                 return;
-                //throw new IllegalArgumentException("Instance type " + type + " cannot generate fluid");
+                // throw new IllegalArgumentException("Instance type " + type + " cannot generate fluid");
             }
             types.add(type);
             instanceFluids.put(type, new MaterialFluidFactoryEntry(flowing, bucket));

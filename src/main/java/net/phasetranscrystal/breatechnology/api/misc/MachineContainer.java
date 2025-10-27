@@ -1,18 +1,15 @@
 package net.phasetranscrystal.breatechnology.api.misc;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
-import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.Set;
 import java.util.function.Predicate;
 
 public class MachineContainer implements Container {
+
     @Override
     public int getContainerSize() {
         return 0;
@@ -39,9 +36,7 @@ public class MachineContainer implements Container {
     }
 
     @Override
-    public void setItem(int i, ItemStack itemStack) {
-
-    }
+    public void setItem(int i, ItemStack itemStack) {}
 
     @Override
     public int getMaxStackSize() {
@@ -54,9 +49,7 @@ public class MachineContainer implements Container {
     }
 
     @Override
-    public void setChanged() {
-
-    }
+    public void setChanged() {}
 
     @Override
     public boolean stillValid(Player player) {
@@ -99,7 +92,5 @@ public class MachineContainer implements Container {
     }
 
     @Override
-    public void clearContent() {
-
-    }
+    public void clearContent() {}
 }

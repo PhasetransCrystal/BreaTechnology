@@ -1,15 +1,16 @@
 package net.phasetranscrystal.breatechnology.api.machine;
 
-import com.lowdragmc.lowdraglib.syncdata.blockentity.IAsyncAutoSyncBlockEntity;
-import com.lowdragmc.lowdraglib.syncdata.blockentity.IAutoPersistBlockEntity;
-import com.lowdragmc.lowdraglib.syncdata.blockentity.IRPCBlockEntity;
-import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.phasetranscrystal.breatechnology.api.BTValues;
 import net.phasetranscrystal.breatechnology.api.definition.MetaMachineDefinition;
+
+import com.lowdragmc.lowdraglib.syncdata.blockentity.IAsyncAutoSyncBlockEntity;
+import com.lowdragmc.lowdraglib.syncdata.blockentity.IAutoPersistBlockEntity;
+import com.lowdragmc.lowdraglib.syncdata.blockentity.IRPCBlockEntity;
+import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
 
 /// 机器方块实体基本方法接口
 public interface IMachineBlockEntity extends IAsyncAutoSyncBlockEntity, IRPCBlockEntity, IAutoPersistBlockEntity {
@@ -71,7 +72,6 @@ public interface IMachineBlockEntity extends IAsyncAutoSyncBlockEntity, IRPCBloc
 
     /// 获取机器元数据
     MetaMachine getMetaMachine();
-
 
     /// 获取随机时刻偏移值
     long getOffset();

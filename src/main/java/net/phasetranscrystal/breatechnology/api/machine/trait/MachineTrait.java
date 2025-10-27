@@ -1,19 +1,20 @@
 package net.phasetranscrystal.breatechnology.api.machine.trait;
 
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
+
 import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
 import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
 /// 机器额外数据
-public abstract class MachineTrait implements IEnhancedManaged{
+public abstract class MachineTrait implements IEnhancedManaged {
 
     @Getter
     private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);

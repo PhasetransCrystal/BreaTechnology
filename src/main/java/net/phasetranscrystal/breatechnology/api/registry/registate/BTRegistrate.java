@@ -1,14 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.registry.registate;
 
-import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.builders.Builder;
-import com.tterrag.registrate.builders.ItemBuilder;
-import com.tterrag.registrate.builders.NoConfigBuilder;
-import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -24,7 +15,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -41,6 +31,16 @@ import net.phasetranscrystal.breatechnology.api.registry.registate.builders.Flui
 import net.phasetranscrystal.breatechnology.api.registry.registate.builders.MachineBuilder;
 import net.phasetranscrystal.breatechnology.api.registry.registate.builders.MaterialBuilder;
 import net.phasetranscrystal.breatechnology.api.utils.FormattingUtil;
+
+import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.builders.Builder;
+import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.builders.NoConfigBuilder;
+import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +54,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
+
     private static final Map<String, BTRegistrate> EXISTING_REGISTRATES = new Object2ObjectOpenHashMap<>();
 
     private final AtomicBoolean registered = new AtomicBoolean(false);
@@ -100,7 +101,7 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
         return this;
     }
 
-    //TODO:add extra methods to BTRegistrate
+    // TODO:add extra methods to BTRegistrate
     @Nullable
     private RegistryEntry<CreativeModeTab, ? extends CreativeModeTab> currentTab;
     private static final Map<RegistryEntry<?, ?>, @Nullable RegistryEntry<CreativeModeTab, ? extends CreativeModeTab>> TAB_LOOKUP = new IdentityHashMap<>();
@@ -165,23 +166,21 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
         return machine(parent, name, MetaMachineDefinition::new, machineFactory, MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
     }
 
-    public <DEFINITION extends MetaMachineDefinition<?>>
-    MachineBuilder<DEFINITION, BTRegistrate> machine(String name,
-                                                     BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
-                                                     Function<IMachineBlockEntity, MetaMachine> machineFactory,
-                                                     BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                                                     BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                                     TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    public <DEFINITION extends MetaMachineDefinition<?>> MachineBuilder<DEFINITION, BTRegistrate> machine(String name,
+                                                                                                          BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
+                                                                                                          Function<IMachineBlockEntity, MetaMachine> machineFactory,
+                                                                                                          BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
+                                                                                                          BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+                                                                                                          TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         return machine(self(), name, definitionFactory, machineFactory, blockFactory, itemFactory, blockEntityFactory);
     }
 
-    public <DEFINITION extends MetaMachineDefinition<?>, P>
-    MachineBuilder<DEFINITION, P> machine(P parent, String name,
-                                          BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
-                                          Function<IMachineBlockEntity, MetaMachine> machineFactory,
-                                          BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                                          BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                          TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    public <DEFINITION extends MetaMachineDefinition<?>, P> MachineBuilder<DEFINITION, P> machine(P parent, String name,
+                                                                                                  BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory,
+                                                                                                  Function<IMachineBlockEntity, MetaMachine> machineFactory,
+                                                                                                  BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
+                                                                                                  BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+                                                                                                  TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         return entry(name, callback -> new MachineBuilder<>(this, parent, name, definitionFactory, callback, machineFactory, blockFactory, itemFactory, blockEntityFactory));
     }
 
@@ -189,20 +188,17 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
         return material(self(), name);
     }
 
-    public <P>
-    MaterialBuilder<MetaMaterial<?>, P> material(P parent, String name) {
+    public <P> MaterialBuilder<MetaMaterial<?>, P> material(P parent, String name) {
         return material(parent, name, MetaMaterial::new);
     }
 
-    public <MATERIAL extends MetaMaterial<?>>
-    MaterialBuilder<MATERIAL, BTRegistrate> material(String name,
-                                                     BiFunction<AbstractRegistrate<?>, ResourceLocation, MATERIAL> definitionFactory) {
+    public <MATERIAL extends MetaMaterial<?>> MaterialBuilder<MATERIAL, BTRegistrate> material(String name,
+                                                                                               BiFunction<AbstractRegistrate<?>, ResourceLocation, MATERIAL> definitionFactory) {
         return material(self(), name, definitionFactory);
     }
 
-    public <MATERIAL extends MetaMaterial<?>, P>
-    MaterialBuilder<MATERIAL, P> material(P parent, String name,
-                                          BiFunction<AbstractRegistrate<?>, ResourceLocation, MATERIAL> definitionFactory) {
+    public <MATERIAL extends MetaMaterial<?>, P> MaterialBuilder<MATERIAL, P> material(P parent, String name,
+                                                                                       BiFunction<AbstractRegistrate<?>, ResourceLocation, MATERIAL> definitionFactory) {
         return entry(name, callback -> MaterialBuilder.create(this, parent, name, callback, definitionFactory));
     }
     // region 废弃的 com.tterrag.registrate.builders.FluidBuilder方法
@@ -215,7 +211,6 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
     public com.tterrag.registrate.builders.FluidBuilder<BaseFlowingFluid.Flowing, BTRegistrate> fluid() {
         return super.fluid();
     }
-
 
     /**
      * 功能不足，已弃用
@@ -532,8 +527,8 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
         return super.fluid(parent, name, stillTexture, flowingTexture, fluidType, fluidFactory);
     }
 
-    //endregion
-    //region 重写的 com.tterrag.registrate.builders.FluidBuilder方法
+    // endregion
+    // region 重写的 com.tterrag.registrate.builders.FluidBuilder方法
     public FluidBuilder<BaseFlowingFluid.Flowing, BTRegistrate> fluid(String name, ResourceLocation stillTexture, ResourceLocation flowingTexture, int tiniColor) {
         return fluid(self(), name, stillTexture, flowingTexture, tiniColor);
     }
@@ -549,5 +544,5 @@ public class BTRegistrate extends AbstractRegistrate<BTRegistrate> {
     public <P> FluidBuilder<BaseFlowingFluid.Flowing, P> fluid(P parent, String name, ResourceLocation stillTexture, ResourceLocation flowingTexture, int tiniColor, FluidBuilder.ClientExtensionFactory clientExtensionFactory) {
         return entry(name, callback -> FluidBuilder.create(this, parent, name, callback, stillTexture, flowingTexture, tiniColor, clientExtensionFactory));
     }
-    //endregion
+    // endregion
 }

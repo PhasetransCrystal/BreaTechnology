@@ -1,14 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.machine;
 
-import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.ReadOnlyManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
-import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.syncdata.managed.IRef;
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,6 +14,16 @@ import net.phasetranscrystal.breatechnology.api.cover.CoverDefinition;
 import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.transfer.fluid.IFluidHandlerModifiable;
 import net.phasetranscrystal.breatechnology.api.utils.BTUtil;
+
+import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.annotation.ReadOnlyManaged;
+import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
+import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib.syncdata.managed.IRef;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -37,8 +38,8 @@ public class MachineCoverContainer implements ICoverable, IEnhancedManaged {
     @Persisted
     @UpdateListener(methodName = "onCoverSet")
     @ReadOnlyManaged(onDirtyMethod = "onCoverDirty",
-            serializeMethod = "serializeCoverUid",
-            deserializeMethod = "deserializeCoverUid")
+                     serializeMethod = "serializeCoverUid",
+                     deserializeMethod = "deserializeCoverUid")
     private CoverBehavior up, down, north, south, west, east;
 
     public MachineCoverContainer(MetaMachine machine) {
@@ -173,12 +174,12 @@ public class MachineCoverContainer implements ICoverable, IEnhancedManaged {
 
     @Override
     public IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
-        return null;//machine.getItemHandlerCap(side, useCoverCapability);
+        return null;// machine.getItemHandlerCap(side, useCoverCapability);
     }
 
     @Override
     public IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
-        return null;//machine.getFluidHandlerCap(side, useCoverCapability);
+        return null;// machine.getFluidHandlerCap(side, useCoverCapability);
     }
 
     @SuppressWarnings("unused")

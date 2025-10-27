@@ -1,6 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.cover;
 
-import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.ModelState;
@@ -12,6 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
+
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +35,7 @@ public interface ICoverRenderer extends IRenderer {
                                         @NotNull RandomSource rand, @NotNull ModelData data, RenderType renderType) {
         return IRenderer.super.renderModel(level, pos, state, side, rand, data, renderType);
     }
+
     @OnlyIn(Dist.CLIENT)
     void renderCover(List<BakedQuad> quads, @Nullable Direction side, RandomSource rand,
                      @NotNull CoverBehavior coverBehavior, @Nullable Direction modelFacing, BlockPos pos,

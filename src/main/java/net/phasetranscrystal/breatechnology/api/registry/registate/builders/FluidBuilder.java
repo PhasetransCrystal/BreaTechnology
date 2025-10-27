@@ -1,21 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.registry.registate.builders;
 
-import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
-import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.builders.AbstractBuilder;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.BuilderCallback;
-import com.tterrag.registrate.builders.ItemBuilder;
-import com.tterrag.registrate.providers.ProviderType;
-import com.tterrag.registrate.providers.RegistrateLangProvider;
-import com.tterrag.registrate.providers.RegistrateTagsProvider;
-import com.tterrag.registrate.util.OneTimeEventReceiver;
-import com.tterrag.registrate.util.RegistrateDistExecutor;
-import com.tterrag.registrate.util.entry.FluidEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import com.tterrag.registrate.util.nullness.*;
-import lombok.Getter;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -31,7 +15,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -41,17 +24,32 @@ import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.phasetranscrystal.breatechnology.api.registry.registate.BTClientFluidTypeExtensions;
+
+import com.google.common.annotations.Beta;
+import com.google.common.base.Preconditions;
+import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.builders.AbstractBuilder;
+import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.builders.BuilderCallback;
+import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.providers.RegistrateLangProvider;
+import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import com.tterrag.registrate.util.entry.FluidEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.nullness.*;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
+import javax.annotation.Nullable;
+
 public class FluidBuilder<T extends BaseFlowingFluid, P> extends AbstractBuilder<Fluid, T, P, FluidBuilder<T, P>> {
 
-    //region
+    // region
     public static <P> FluidBuilder<BaseFlowingFluid.Flowing, P> create(AbstractRegistrate<?> owner, P parent, String name, BuilderCallback callback, ResourceLocation stillTexture, ResourceLocation flowingTexture, int tintColor) {
         return create(owner, parent, name, callback, stillTexture, flowingTexture, tintColor, FluidBuilder::defaultFluidType, BTClientFluidTypeExtensions::new, BaseFlowingFluid.Flowing::new);
     }
@@ -114,7 +112,7 @@ public class FluidBuilder<T extends BaseFlowingFluid, P> extends AbstractBuilder
                 .defaultLang().defaultSource().defaultBlock().defaultBucket();
         return ret;
     }
-    //endregion
+    // endregion
 
     private final String sourceName, bucketName;
 
@@ -123,6 +121,7 @@ public class FluidBuilder<T extends BaseFlowingFluid, P> extends AbstractBuilder
 
     @FunctionalInterface
     public interface ClientExtensionFactory {
+
         IClientFluidTypeExtensions create(ResourceLocation stillTexture, ResourceLocation flowingTexture, int tintColor);
     }
 
@@ -136,8 +135,7 @@ public class FluidBuilder<T extends BaseFlowingFluid, P> extends AbstractBuilder
     @Nullable
     private Boolean defaultSource, defaultBlock, defaultBucket;
 
-    private NonNullConsumer<FluidType.Properties> typeProperties = $ -> {
-    };
+    private NonNullConsumer<FluidType.Properties> typeProperties = $ -> {};
 
     private NonNullConsumer<BaseFlowingFluid.Properties> fluidProperties;
 
@@ -347,7 +345,7 @@ public class FluidBuilder<T extends BaseFlowingFluid, P> extends AbstractBuilder
         return fluidFactory.apply(makeProperties());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public @NotNull FluidEntry<T> register() {
         // Check the fluid has a type.

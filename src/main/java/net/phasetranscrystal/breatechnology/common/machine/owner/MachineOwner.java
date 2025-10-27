@@ -1,7 +1,5 @@
 package net.phasetranscrystal.breatechnology.common.machine.owner;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +9,9 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.phasetranscrystal.breatechnology.BreaTechnology;
 import net.phasetranscrystal.breatechnology.api.machine.MetaMachine;
 import net.phasetranscrystal.breatechnology.config.ConfigHolder;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;

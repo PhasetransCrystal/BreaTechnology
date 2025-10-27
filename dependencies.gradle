@@ -1,0 +1,24 @@
+dependencies {
+    compileOnly("org.projectlombok:lombok:1.18.32")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
+
+    compileOnly "curse.maven:configuration-444699:5774720" //Configuration 3.1.0
+    jarJar(api("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67"))
+    jarJar(api("curse.maven:ldlib-626676:6260254"))
+
+    //implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
+
+    compileOnly "curse.maven:applied-energistics-2-223794:6488853" //AE2 19.2.10
+    compileOnly "curse.maven:jei-238222:6600216" //JEI 19.21.1.310
+
+    compileOnly "curse.maven:modern-ui-352491:6200236" //Modern UI 3.11.1.9
+
+    compileOnly("curse.maven:architectury-api-419699:5786327")
+    //Team
+    compileOnly("curse.maven:ftb-library-forge-404465:6466106")
+    //extraRuntimeOnly("curse.maven:ftb-library-forge-404465:6466106")
+    compileOnly("curse.maven:ftb-teams-forge-404468:6119437")
+    //extraRuntimeOnly("curse.maven:ftb-teams-forge-404468:6119437")
+    compileOnly("curse.maven:ftb-quests-forge-289412:6429142")
+    //extraRuntimeOnly("curse.maven:ftb-quests-forge-289412:6429142")
+}

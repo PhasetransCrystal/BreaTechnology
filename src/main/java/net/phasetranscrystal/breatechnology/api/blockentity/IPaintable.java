@@ -8,6 +8,7 @@ public interface IPaintable {
     /**
      * 获取绘制颜色。
      * 这不是该方块的真实颜色。
+     * 
      * @return -1 表示未绘制
      */
     int getPaintingColor();

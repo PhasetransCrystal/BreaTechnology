@@ -1,18 +1,5 @@
 package net.phasetranscrystal.breatechnology.api.registry.registate.builders;
 
-import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
-import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.builders.*;
-import com.tterrag.registrate.providers.ProviderType;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
-import com.tterrag.registrate.util.nullness.*;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import lombok.experimental.Tolerate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -44,6 +31,20 @@ import net.phasetranscrystal.breatechnology.api.recipe.modifier.RecipeModifier;
 import net.phasetranscrystal.breatechnology.api.registry.BTRegistries;
 import net.phasetranscrystal.breatechnology.api.renderer.BTRendererProvider;
 import net.phasetranscrystal.breatechnology.config.ConfigHolder;
+
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.builders.*;
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.nullness.*;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.Tolerate;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +57,7 @@ import java.util.Objects;
 import java.util.function.*;
 
 @Accessors(chain = true, fluent = true)
-public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extends AbstractBuilder<MetaMachineDefinition<?>,DEFINITION,P,MachineBuilder<DEFINITION,P>> {
+public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>, P> extends AbstractBuilder<MetaMachineDefinition<?>, DEFINITION, P, MachineBuilder<DEFINITION, P>> {
 
     /// 机器定义数据工厂
     protected final BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory;
@@ -91,7 +92,7 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extend
 
     /// 设置以Model为源的渲染器
     public MachineBuilder<DEFINITION, P> modelRenderer(Supplier<ResourceLocation> model) {
-        this.renderer = () -> IRenderer.EMPTY;//new MachineRenderer(model.get());
+        this.renderer = () -> IRenderer.EMPTY;// new MachineRenderer(model.get());
         return this;
     }
 
@@ -99,52 +100,54 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extend
     public MachineBuilder<DEFINITION, P> defaultModelRenderer() {
         return modelRenderer(() -> ResourceLocation.fromNamespaceAndPath(getOwner().getModid(), "block/" + getName()));
     }
+
     /*
-    public MachineBuilder<DEFINITION> tieredHullRenderer(ResourceLocation model) {
-        return renderer(() -> new TieredHullMachineRenderer(tier, model));
-    }
-
-    public MachineBuilder<DEFINITION> overlayTieredHullRenderer(String name) {
-        return renderer(() -> new OverlayTieredMachineRenderer(tier,
-                ResourceLocation.fromNamespaceAndPath(owner.getModid(), "block/machine/part/" + name)));
-    }
-
-    public MachineBuilder<DEFINITION> overlaySteamHullRenderer(String name) {
-        return renderer(() -> new OverlaySteamMachineRenderer(
-                ResourceLocation.fromNamespaceAndPath(owner.getModid(), "block/machine/part/" + name)));
-    }
-
-    public MachineBuilder<DEFINITION> workableTieredHullRenderer(ResourceLocation workableModel) {
-        return renderer(() -> new WorkableTieredHullMachineRenderer(tier, workableModel));
-    }
-
-    public MachineBuilder<DEFINITION> simpleGeneratorMachineRenderer(ResourceLocation workableModel) {
-        return renderer(() -> new SimpleGeneratorMachineRenderer(tier, workableModel));
-    }
-
-    public MachineBuilder<DEFINITION> workableSteamHullRenderer(boolean isHighPressure,
-                                                                ResourceLocation workableModel) {
-        return renderer(() -> new WorkableSteamMachineRenderer(isHighPressure, workableModel));
-    }
-
-    public MachineBuilder<DEFINITION> workableCasingRenderer(ResourceLocation baseCasing,
-                                                             ResourceLocation workableModel) {
-        return renderer(() -> new WorkableCasingMachineRenderer(baseCasing, workableModel));
-    }
-
-    public MachineBuilder<DEFINITION> workableCasingRenderer(ResourceLocation baseCasing,
-                                                             ResourceLocation workableModel, boolean tint) {
-        return renderer(() -> new WorkableCasingMachineRenderer(baseCasing, workableModel, tint));
-    }
-
-    public MachineBuilder<DEFINITION> sidedWorkableCasingRenderer(String basePath, ResourceLocation overlayModel,
-                                                                  boolean tint) {
-        return renderer(() -> new WorkableSidedCasingMachineRenderer(basePath, overlayModel, tint));
-    }
-
-    public MachineBuilder<DEFINITION> sidedWorkableCasingRenderer(String basePath, ResourceLocation overlayModel) {
-        return renderer(() -> new WorkableSidedCasingMachineRenderer(basePath, overlayModel));
-    }*/
+     * public MachineBuilder<DEFINITION> tieredHullRenderer(ResourceLocation model) {
+     * return renderer(() -> new TieredHullMachineRenderer(tier, model));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> overlayTieredHullRenderer(String name) {
+     * return renderer(() -> new OverlayTieredMachineRenderer(tier,
+     * ResourceLocation.fromNamespaceAndPath(owner.getModid(), "block/machine/part/" + name)));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> overlaySteamHullRenderer(String name) {
+     * return renderer(() -> new OverlaySteamMachineRenderer(
+     * ResourceLocation.fromNamespaceAndPath(owner.getModid(), "block/machine/part/" + name)));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> workableTieredHullRenderer(ResourceLocation workableModel) {
+     * return renderer(() -> new WorkableTieredHullMachineRenderer(tier, workableModel));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> simpleGeneratorMachineRenderer(ResourceLocation workableModel) {
+     * return renderer(() -> new SimpleGeneratorMachineRenderer(tier, workableModel));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> workableSteamHullRenderer(boolean isHighPressure,
+     * ResourceLocation workableModel) {
+     * return renderer(() -> new WorkableSteamMachineRenderer(isHighPressure, workableModel));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> workableCasingRenderer(ResourceLocation baseCasing,
+     * ResourceLocation workableModel) {
+     * return renderer(() -> new WorkableCasingMachineRenderer(baseCasing, workableModel));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> workableCasingRenderer(ResourceLocation baseCasing,
+     * ResourceLocation workableModel, boolean tint) {
+     * return renderer(() -> new WorkableCasingMachineRenderer(baseCasing, workableModel, tint));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> sidedWorkableCasingRenderer(String basePath, ResourceLocation overlayModel,
+     * boolean tint) {
+     * return renderer(() -> new WorkableSidedCasingMachineRenderer(basePath, overlayModel, tint));
+     * }
+     * 
+     * public MachineBuilder<DEFINITION> sidedWorkableCasingRenderer(String basePath, ResourceLocation overlayModel) {
+     * return renderer(() -> new WorkableSidedCasingMachineRenderer(basePath, overlayModel));
+     * }
+     */
     /// 渲染模型
     @Setter
     private VoxelShape shape = Shapes.block();
@@ -210,13 +213,11 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extend
     @NotNull
     @Getter
     @Setter
-    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {
-    };
+    private Consumer<IRecipeLogicMachine> onWaiting = (machine) -> {};
     @NotNull
     @Getter
     @Setter
-    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {
-    };
+    private Consumer<IRecipeLogicMachine> afterWorking = (machine) -> {};
     @Getter
     @Setter
     private boolean regressWhenWaiting = true;
@@ -272,34 +273,35 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extend
         return this;
     }
     /*
-    public MachineBuilder<DEFINITION> abilities(PartAbility... abilities) {
-        this.abilities = abilities;
-        return this;
-    }*/
+     * public MachineBuilder<DEFINITION> abilities(PartAbility... abilities) {
+     * this.abilities = abilities;
+     * return this;
+     * }
+     */
     /*
-    public MachineBuilder<DEFINITION> recipeModifier(RecipeModifier recipeModifier) {
-        this.recipeModifier = recipeModifier instanceof RecipeModifierList list ? list :
-                new RecipeModifierList(recipeModifier);
-        return this;
-    }
-    public MachineBuilder<DEFINITION> recipeModifier(RecipeModifier recipeModifier, boolean alwaysTryModifyRecipe) {
-        this.alwaysTryModifyRecipe = alwaysTryModifyRecipe;
-        return this.recipeModifier(recipeModifier);
-    }
-    public MachineBuilder<DEFINITION> recipeModifiers(RecipeModifier... recipeModifiers) {
-        this.recipeModifier = new RecipeModifierList(recipeModifiers);
-        return this;
-    }
-    public MachineBuilder<DEFINITION> recipeModifiers(boolean alwaysTryModifyRecipe,
-                                                      RecipeModifier... recipeModifiers) {
-        return this.recipeModifier(new RecipeModifierList(recipeModifiers), alwaysTryModifyRecipe);
-    }
-    public MachineBuilder<DEFINITION> noRecipeModifier() {
-        this.recipeModifier = new RecipeModifierList(RecipeModifier.NO_MODIFIER);
-        this.alwaysTryModifyRecipe = false;
-        return this;
-    }
-    */
+     * public MachineBuilder<DEFINITION> recipeModifier(RecipeModifier recipeModifier) {
+     * this.recipeModifier = recipeModifier instanceof RecipeModifierList list ? list :
+     * new RecipeModifierList(recipeModifier);
+     * return this;
+     * }
+     * public MachineBuilder<DEFINITION> recipeModifier(RecipeModifier recipeModifier, boolean alwaysTryModifyRecipe) {
+     * this.alwaysTryModifyRecipe = alwaysTryModifyRecipe;
+     * return this.recipeModifier(recipeModifier);
+     * }
+     * public MachineBuilder<DEFINITION> recipeModifiers(RecipeModifier... recipeModifiers) {
+     * this.recipeModifier = new RecipeModifierList(recipeModifiers);
+     * return this;
+     * }
+     * public MachineBuilder<DEFINITION> recipeModifiers(boolean alwaysTryModifyRecipe,
+     * RecipeModifier... recipeModifiers) {
+     * return this.recipeModifier(new RecipeModifierList(recipeModifiers), alwaysTryModifyRecipe);
+     * }
+     * public MachineBuilder<DEFINITION> noRecipeModifier() {
+     * this.recipeModifier = new RecipeModifierList(RecipeModifier.NO_MODIFIER);
+     * this.alwaysTryModifyRecipe = false;
+     * return this;
+     * }
+     */
 
     /// 添加输出限制
     public MachineBuilder<DEFINITION, P> addOutputLimit(RecipeCapability<?> capability, int limit) {
@@ -379,7 +381,9 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extend
         definition.setRegressWhenWaiting(this.regressWhenWaiting);
 
         if (renderer == null) {
-            renderer = () -> IRenderer.EMPTY;//new MachineRenderer(ResourceLocation.fromNamespaceAndPath(owner.getModid(), "block/machine/" + name));
+            renderer = () -> IRenderer.EMPTY;// new
+                                             // MachineRenderer(ResourceLocation.fromNamespaceAndPath(owner.getModid(),
+                                             // "block/machine/" + name));
         }
         if (recipeTypes != null) {
             for (BTRecipeType type : recipeTypes) {
@@ -410,31 +414,27 @@ public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extend
     static class BlockBuilderWrapper {
 
         @SuppressWarnings("removal")
-        public static <D extends MetaMachineDefinition<?>, P> BlockBuilder<Block, MachineBuilder<D, P>>
-        makeBlockBuilder(MachineBuilder<D, P> builder, D definition) {
+        public static <D extends MetaMachineDefinition<?>, P> BlockBuilder<Block, MachineBuilder<D, P>> makeBlockBuilder(MachineBuilder<D, P> builder, D definition) {
             return builder.getOwner().block(builder, builder.getName(), prop -> {
-                        RotationState.setPreState(builder.rotationState);
-                        MetaMachineDefinition.setBuilt(definition);
-                        var b = builder.blockFactory.apply(prop, definition);
-                        RotationState.clearPreState();
-                        MetaMachineDefinition.clearBuilt();
-                        return b.self();
-                    })
+                RotationState.setPreState(builder.rotationState);
+                MetaMachineDefinition.setBuilt(definition);
+                var b = builder.blockFactory.apply(prop, definition);
+                RotationState.clearPreState();
+                MetaMachineDefinition.clearBuilt();
+                return b.self();
+            })
                     .initialProperties(() -> Blocks.DISPENSER)
                     .properties(BlockBehaviour.Properties::noLootTable)
                     .addLayer(() -> RenderType::cutoutMipped)
                     .blockstate(NonNullBiConsumer.noop())
                     .properties(builder.blockProp);
-
         }
     }
 
     static class ItemBuilderWrapper {
 
-        public static <D extends MetaMachineDefinition<?>, P> ItemBuilder<MetaMachineItem, MachineBuilder<D, P>>
-        makeItemBuilder(MachineBuilder<D, P> builder, BlockEntry<Block> block) {
-            return builder.getOwner().item(builder, builder.getName(), prop ->
-                            builder.itemFactory.apply((IMachineBlock) block.get(), prop))
+        public static <D extends MetaMachineDefinition<?>, P> ItemBuilder<MetaMachineItem, MachineBuilder<D, P>> makeItemBuilder(MachineBuilder<D, P> builder, BlockEntry<Block> block) {
+            return builder.getOwner().item(builder, builder.getName(), prop -> builder.itemFactory.apply((IMachineBlock) block.get(), prop))
                     .setData(ProviderType.LANG, NonNullBiConsumer.noop()) // do not gen any lang keys
                     .model(NonNullBiConsumer.noop())
                     .properties(builder.itemProp);

@@ -1,181 +1,50 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.94'
     id 'idea'
-}
-
-tasks.named('wrapper', Wrapper).configure {
-    // 在这里定义wrapper值，这样在更新gradlew.properties时就不必每次都设置了。
-    // 如果将其切换为Wrapper.DistributionType.ALL，将会下载完整的Gradle源码（附带类和方法的悬停文档）。
-    // 但这会增加Gradle的文件大小。如果切换为ALL，之后需要运行Gradle wrapper任务两次。
-    // （通过检查gradle/wrapper/gradle-wrapper.properties来验证distributionUrl是否指向`-all`）
-    distributionType = Wrapper.DistributionType.BIN
+    alias libs.plugins.modDevGradleLegacy
+    alias libs.plugins.spotless
+    alias libs.plugins.kotlin.jvm
+    alias libs.plugins.kotlin.plugin
 }
 
 version = mod_version
-group = mod_group_id
-
-repositories {
-    mavenLocal()
-    maven {
-        url = "https://cursemaven.com" // CurseForge模组仓库
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-    exclusiveContent { // Configuration
-        forRepository { maven { url = "https://api.repsy.io/mvn/toma/public/" } }
-        filter { includeGroup('dev.toma.configuration') }
-    }
-    exclusiveContent { // FTB mods
-        forRepository { maven { url = "https://maven.ftb.dev/releases/" } }
-        filter { includeGroup("dev.ftb.mods") }
-    }
-    exclusiveContent { // tterrag - registrate
-        forRepository { maven { url = "https://mvn.devos.one/snapshots/" } }
-        filter { includeGroup("com.tterrag.registrate") }
-    }
-}
-
-base {
-    archivesName = mod_id
-}
 
 // Mojang从1.20.5开始向最终用户提供Java 21，因此mod应面向Java 21。
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-neoForge {
-    // 指定要使用的NeoForge版本。
-    version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    // This line is optional. Access Transformers are automatically detected
-    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
-
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
-    runs {
-        client {
-            client()
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        // 此运行配置启动GameTestServer并运行所有注册的游戏测试，然后退出。
-        // 默认情况下，当没有提供游戏测试时服务器会崩溃。
-        // 游戏测试系统默认也在其他运行配置中通过/test命令启用。
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-            // 数据生成示例：覆盖上面configureEach中设置的工作目录，如需使用请取消注释
-            gameDirectory = project.file('run-data')
-            // 指定用于数据生成的modid，输出结果的路径，以及查找现有资源的路径。
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-        // 适用于上述所有运行配置：
-        configureEach {
-            // 用户开发环境推荐的日志数据
-            // 可以按需添加/移除标记，用逗号分隔。
-            // "SCAN"：用于mod扫描
-            // "REGISTRIES"：用于触发注册表事件
-            // "REGISTRYDUMP"：用于获取所有注册表内容
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-
-            // 控制台推荐的日志级别
-            // 可以在此设置各种级别。
-            // 请阅读：https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        // 定义mod与源码的绑定关系
-        // 这些用于告诉游戏哪些源码属于哪个mod
-        // 多mod项目应为每个mod定义一个
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
-}
-
 // 包含数据生成器生成的资源.
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-// 设置名为'localRuntime'的依赖配置。
-// 应该使用此配置而非'runtimeOnly'来声明
-// 用于运行时测试但"可选"的依赖项，意味着依赖此mod的项目不会拉取它。
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
+apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
+apply from: "$rootDir/gradle/scripts/repositories.gradle"
+apply from: "$rootDir/dependencies.gradle"
+apply from: "$rootDir/gradle/scripts/resources.gradle"
+apply from: "$rootDir/gradle/scripts/jars.gradle"
+apply from: "$rootDir/gradle/scripts/spotless.gradle"
+
+generateModMetadata.doFirst {
+    mkdir('run/client')
+    mkdir('run/server')
+    mkdir('run/data')
 }
 
-dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.32")
-    annotationProcessor("org.projectlombok:lombok:1.18.32")
-
-    compileOnly "curse.maven:configuration-444699:5774720" //Configuration 3.1.0
-    jarJar(api("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67"))
-    jarJar(api("curse.maven:ldlib-626676:6260254"))
-
-    //implementation("com.tterrag.registrate:Registrate:MC1.21-1.3.0+67")
-
-    compileOnly "curse.maven:applied-energistics-2-223794:6488853" //AE2 19.2.10
-    compileOnly "curse.maven:jei-238222:6600216" //JEI 19.21.1.310
-
-    compileOnly "curse.maven:modern-ui-352491:6200236" //Modern UI 3.11.1.9
-
-    compileOnly("curse.maven:architectury-api-419699:5786327")
-    //Team
-    compileOnly("curse.maven:ftb-library-forge-404465:6466106")
-    //extraRuntimeOnly("curse.maven:ftb-library-forge-404465:6466106")
-    compileOnly("curse.maven:ftb-teams-forge-404468:6119437")
-    //extraRuntimeOnly("curse.maven:ftb-teams-forge-404468:6119437")
-    compileOnly("curse.maven:ftb-quests-forge-289412:6429142")
-    //extraRuntimeOnly("curse.maven:ftb-quests-forge-289412:6429142")
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal"
 }
 
-// 此代码块展开指定资源目标中所有声明的替换属性。
-// 缺少属性会导致错误。使用${} Groovy表示法展开属性。
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
+jar{
+    exclude "**/.cache"
+    exclude "**/SimplifiedToTraditional.properties"
 }
-// 将"generateModMetadata"的输出包含为构建的输入目录
-// 这适用于通过Gradle和IDE构建的情况。
-sourceSets.main.resources.srcDir generateModMetadata
-// 为避免手动运行"generateModMetadata"，使其在每次项目重新加载时运行
-neoForge.ideSyncTask generateModMetadata
 
-// 示例配置，允许使用maven-publish插件发布
+java {
+    withSourcesJar()
+}
+
+version = mod_version
+
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
@@ -187,10 +56,6 @@ publishing {
             url "file://${project.projectDir}/repo"
         }
     }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
 // IDEA不再自动下载依赖项的源码/javadoc jar，因此需要显式启用此行为。
