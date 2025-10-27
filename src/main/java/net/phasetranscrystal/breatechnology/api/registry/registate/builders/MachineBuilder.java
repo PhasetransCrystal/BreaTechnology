@@ -59,7 +59,7 @@ import java.util.function.*;
 public class MachineBuilder<DEFINITION extends MetaMachineDefinition<?>,P>extends AbstractBuilder<MetaMachineDefinition<?>,DEFINITION,P,MachineBuilder<DEFINITION,P>> {
 
     /// 机器定义数据工厂
-    protected BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory;
+    protected final BiFunction<AbstractRegistrate<?>, ResourceLocation, DEFINITION> definitionFactory;
     /// 机器元数据
     protected final Function<IMachineBlockEntity, MetaMachine> machineFactory;
     /// 机器方块工厂

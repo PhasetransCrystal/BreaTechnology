@@ -291,13 +291,13 @@ public class MetaMachine implements IEnhancedManaged, ITickSubscription, IAppear
 
     /// ///////////////////////////////////
 
-    @Nullable
-    public static MetaMachine getMachine(BlockGetter level, BlockPos pos) {
-        if (level.getBlockEntity(pos) instanceof IMachineBlockEntity machineBlockEntity) {
-            return machineBlockEntity.getMetaMachine();
+        @Nullable
+        public static MetaMachine getMachine(BlockGetter level, BlockPos pos) {
+            if (level.getBlockEntity(pos) instanceof IMachineBlockEntity machineBlockEntity) {
+                return machineBlockEntity.getMetaMachine();
+            }
+            return null;
         }
-        return null;
-    }
 
     /**
      * All traits should be initialized while MetaMachine is creating. you cannot add them on the fly.
