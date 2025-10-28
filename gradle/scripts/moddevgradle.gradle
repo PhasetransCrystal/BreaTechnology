@@ -25,10 +25,19 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
-        data {
-            data()
-            ideName = "Data"
-            gameDirectory.set(file('run/data'))
+        clientData {
+            clientData()
+            ideName = "clientData"
+            gameDirectory.set(file('run/clientData'))
+            programArguments.addAll('--mod', project.mod_id)
+            programArguments.addAll('--all')
+            programArguments.addAll('--output', file('src/generated/resources/').getAbsolutePath())
+            programArguments.addAll('--existing', file('src/main/resources/').getAbsolutePath())
+        }
+        serverData {
+            serverData()
+            ideName = "serverData"
+            gameDirectory.set(file('run/serverData'))
             programArguments.addAll('--mod', project.mod_id)
             programArguments.addAll('--all')
             programArguments.addAll('--output', file('src/generated/resources/').getAbsolutePath())

@@ -26,7 +26,8 @@ apply from: "$rootDir/gradle/scripts/spotless.gradle"
 generateModMetadata.doFirst {
     mkdir('run/client')
     mkdir('run/server')
-    mkdir('run/data')
+    mkdir('run/clientData')
+    mkdir('run/serverData')
 }
 
 tasks.withType(JavaCompile).configureEach {
